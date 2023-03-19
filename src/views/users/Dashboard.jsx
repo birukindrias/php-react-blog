@@ -1,10 +1,11 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import React, { useEffect, useState } from "react"; 
+import React, { useEffect, useState } from "react";
 export const Dashboard = () => {
   const user = useSelector((state) => state.userDataSlice.userData.user);
   console.log(user);
   const [postData, setpostData] = useState("");
+  const [posts, setpostData] = useState("");
 
   const createPost = async () => {
     await fetch("http://localhost:8080/api/v1/createpost", {
@@ -26,30 +27,32 @@ export const Dashboard = () => {
   console.log(postData);
   return (
     <>
-      <input
+      {/* <input
         type="text"
         onChange={(e) => {
           setpostData(e.target.value);
         }}
-      />
-      <textarea
-        name=""
-        id=""
-        cols="30"
-        rows="10"
-        onChange={(e) => {
-          setpostData(e.target.value);
-        }}
-      ></textarea>
+      /> */}
+      <div className="w-ful px-60 bg-blue-600 flex flex-col align-bottom justify-end ">
+        <textarea
+          name=""
+          id=""
+          cols="30"
+          rows="10"
+          onChange={(e) => {
+            setpostData(e.target.value);
+          }}
+        ></textarea>
 
-      <button
-        type="submit"
-        onClick={() => {
-          createPost();
-        }}
-      >
-        post
-      </button>
+        <button
+          type="submit"
+          onClick={() => {
+            createPost();
+          }}
+        >
+          post
+        </button>
+      </div>
     </>
   );
 };

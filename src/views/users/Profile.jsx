@@ -17,8 +17,7 @@ function Profile() {
 
   return (
     <>
-      {/* {token}
-      {users} */}
+      
       profile
     </>
   );

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/styles";
 import {
   Grid,
   Card,
@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import axios from "axios";
-import  { useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { actions_post } from "../../store/posts";
@@ -22,45 +22,46 @@ const useStyles = makeStyles((theme) => ({
   card: {
     maxWidth: 345,
   },
+  
   media: {
     height: 140,
   },
 }));
 
 function Posts() {
-    const [allpost, setallpost] = useState([]);
+  const [allpost, setallpost] = useState([]);
 
-    const dispatch = useDispatch();
-    const getPosts = (posts) => {
-      dispatch(actions_post.postDataAdd(posts));
-    };
- 
-useEffect(() => {
-    let rees =  axios
-    .get("http://localhost:8080/api/v1/posts").then((result) => {
-        console.log(result.data)
-        getPosts(result.data.posts)
-        console.log(result.data.posts)
-        setallpost(result.data.posts)
-  
-        console.log("getallposts")
-        
-    }).catch((err) => {
-        console.log(err)
-    });
- 
-   console.log('sssssssssss')
-   console.log(rees)
-   console.log('asdjfiaidfa')
-  },[]);
+  const dispatch = useDispatch();
+  const getPosts = (posts) => {
+    dispatch(actions_post.postDataAdd(posts));
+  };
 
+  useEffect(() => {
+    let rees = axios
+      .get("http://localhost:8080/api/v1/posts")
+      .then((result) => {
+        console.log(result.data);
+        getPosts(result.data.posts);
+        console.log(result.data.posts);
+        setallpost(result.data.posts);
+
+        console.log("getallposts");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    console.log("sssssssssss");
+    console.log(rees);
+    console.log("asdjfiaidfa");
+  }, []);
 
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
       <Grid container spacing={2}>
-        {allpost.map((e)=>{
+        {/* {allpost.map((e)=>{ 
             return   <Grid item xs={12} sm={6} md={4}>
           <Card className={classes.card}>
             <CardActionArea>
@@ -80,8 +81,7 @@ useEffect(() => {
             </CardActionArea>
           </Card>
         </Grid>
-        }) }
-
+        }) } */}
 
         {/* Add more Grid items for more blog posts */}
       </Grid>

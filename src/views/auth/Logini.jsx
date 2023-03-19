@@ -28,7 +28,7 @@ function Copyright(props) {
       {" "}
       {"Copyright © "}{" "}
       <Link color="inherit" href="https://mui.com/">
-        Your Website{" "}
+        Blogini{" "}
       </Link>{" "}
       {new Date().getFullYear()} {"."}{" "}
     </Typography>
@@ -37,7 +37,7 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function SignInSide() {
+export default function SignInSidei() {
   const user = useSelector((state) => state.userDataSlice.userData["user"]);
   // seter data
   const [useriData, setuserData] = useState();
@@ -116,7 +116,7 @@ export default function SignInSide() {
               {/* <LockOutlinedIcon /> */}
             </Avatar>{" "}
             <Typography component="h1" variant="h5">
-              Create Account{" "}
+              Login{" "}
             </Typography>{" "}
             <Box
               component="form"
@@ -148,30 +148,7 @@ export default function SignInSide() {
                 onChange={handleChange}
                 autoComplete="current-password"
               />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="firstname"
-                label="firstname"
-                type="firstname"
-                id="firstname"
-                value={formValues.firstname}
-                onChange={handleChange}
-                autoComplete="current-firstname"
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="lastname"
-                label="lastname"
-                type="lastname"
-                id="lastname"
-                value={formValues.lastname}
-                onChange={handleChange}
-                autoComplete="current-lastname"
-              />
+        
               {/* <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
                             label="Remember me"
@@ -182,7 +159,7 @@ export default function SignInSide() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Create Account{" "}
+                Login{" "}
               </Button>{" "}
               <Grid container>
                 <Grid item xs>
@@ -191,9 +168,9 @@ export default function SignInSide() {
                   </Link>{" "}
                 </Grid>{" "}
                 <Grid item>
-                  <Link href="login" variant="body2">
+                  <Link href="/register" variant="body2">
                     {" "}
-                    {"Do you have an account? Login"}{" "}
+                    {"Don't have an account?"}{" "}
                   </Link>{" "}
                 </Grid>{" "}
               </Grid>{" "}
