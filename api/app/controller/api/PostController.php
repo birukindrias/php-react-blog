@@ -18,7 +18,7 @@ class PostController
         // return    var_dump($data );
         $posts = new Post();
         $data =  $posts->SelectAll();
-        echo json_encode(['posts' => $data]);
+        echo json_encode(['posts' => sort($data,SORT_DESC)]);
     }
     // create post
     public  function createPost()

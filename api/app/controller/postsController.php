@@ -25,6 +25,7 @@ class postsController extends Controller
   }
   public  function Post()
   {
+    
     if (App::$kernel->request->isPost()) {
       var_dump(App::$kernel->request->getBody());
       $DATA = App::$kernel->request->getBody();
@@ -32,6 +33,7 @@ class postsController extends Controller
 
       $USER->loadData($DATA);
       // var_dump($DATA);
+      
       // $USER->loadData();
       // $id        = App::$kernel->session->sessionGet('id');
       // var_dump($id);
@@ -58,6 +60,7 @@ class postsController extends Controller
 
       $USER->save();
       // exit;
+      
       return App::$kernel->response->redirect('/');
     }
     return;

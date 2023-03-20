@@ -8,4 +8,7 @@ export const store = configureStore({
         userDataSlice: userSlice.reducer,
         postDataSlice: postSlice.reducer,
     },
+
+
+
 });

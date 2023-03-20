@@ -2,6 +2,7 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
+
 import App from "./App";
 import "./output.css";
 import { store } from "./store/index";
@@ -15,12 +16,15 @@ import { Dashboard } from "./views/users/Dashboard.jsx";
 import { Profile } from "./views/users/Profile.jsx";
 const container = document.getElementById("root");
 const root = createRoot(container);
+import { ThemeProvider } from "@material-tailwind/react";
 
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
+      <ThemeProvider>
         <App />
+        </ThemeProvider>
       </Provider>
     </BrowserRouter>
   </React.StrictMode>
