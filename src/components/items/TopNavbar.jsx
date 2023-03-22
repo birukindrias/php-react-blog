@@ -24,7 +24,7 @@ const TopNavbar = ({ isLoggedIn, onLogout }) => {
             {user ? (
               <>
                 <li>
-                  <h1 className="pl-8 px-3 lg:pl-0 text-gray-700">Dashboard</h1>
+                  <h1 className="pl-8 px-3 lg:pl-0 text-gray-700"><Link to='/dashboard'>Dashboard</Link></h1>
                 </li>
                 <li>
                   <h1 className="pl-8 px-3 lg:pl-0 text-gray-700"><Link to='/profile'>Profile</Link></h1>

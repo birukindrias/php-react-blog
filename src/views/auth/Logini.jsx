@@ -5,6 +5,8 @@ import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
+import { Link as linko}  from "react-router-dom";
+
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -39,9 +41,7 @@ const theme = createTheme();
 
 export default function SignInSidei() {
   const user = useSelector((state) => state.userDataSlice.userData["user"]);
-  // seter data
   const [useriData, setuserData] = useState();
-  // gt o vaues
   const [formValues, setFormValues] = useState({
     email: "",
     password: "",
@@ -60,7 +60,7 @@ export default function SignInSidei() {
     event.preventDefault();
     console.log(formValues);
     const response = await axios.post(
-      "http://localhost:8080/api/v1/createUser",
+      "http://localhost:8080/api/v1/create",
       formValues
     );
     console.log(response.data);
@@ -168,8 +168,7 @@ export default function SignInSidei() {
                   </Link>{" "}
                 </Grid>{" "}
                 <Grid item>
-                  <Link href="/register" variant="body2">
-                    {" "}
+                  <Link href='/register'  variant="body2">  {" "}
                     {"Don't have an account?"}{" "}
                   </Link>{" "}
                 </Grid>{" "}

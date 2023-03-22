@@ -17,7 +17,6 @@ class App
   public Response $response;
   public Session $session;
   public DB $db;
-  // <publ></publ>ic string $layout = "main";
   public static  $kernel;
   public static  $HOME_PATH;
   public static $user = null;
@@ -36,29 +35,7 @@ class App
 
     $this->response = new Response();
     $this->db = new DB($_config);
-    // $userId = App::$kernel->session->sessionGet('id') ?? false;
     $userId =  false;
-    // if (!$userId) {
-    //     $userId = false;
-    // }
-    // var_dump($userId);
-    // var_dump(self::isGuest());
-    // if ($userId !== false) {
-    //   $key = $userClass::primaryKey();
-    //   // var_dump($this->userClass);
-    //   $this->user = $userClass::getUser([$key => $userId]);
-    //   // var_dump($this->user);
-    //   $userClass->loadData($this->user);
-    // }
-  }
-
-  public static function isGuest()
-  {
-    // var_dump(!self::$kernel->user);
-    if (self::$kernel->user == null) {
-      return true;
-    }
-    return false;
   }
 
 

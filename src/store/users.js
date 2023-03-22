@@ -3,11 +3,15 @@ import { createSlice } from "@reduxjs/toolkit";
 const userSlice = createSlice({
     name: "userData",
     initialState: {
-        userData: [],
+        userData: [localStorage.getItem("user")],
     },
     reducers: {
         userDataAdd(state, action) {
             state.userData = action.payload;
+            localStorage.setItem("user", {
+                user: action.payload
+            });
+
             // state.userData = a;
         },
         signinUser(state, action) {

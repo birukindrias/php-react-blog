@@ -1,4 +1,5 @@
-import * as React from "react";
+import React, { useState } from "react";
+import { useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -15,28 +16,34 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function PostsItem() {
-  const [posts, setPosts] = React.useState([]);
+  const [posts, setPosts] = useState([]);
 
-  let get = async () => {
+  let getPosts = async () => {
     let res = await axios.get("http://localhost:8080/api/v1/posts");
     setPosts(res.data.posts);
     console.log(res.data.posts);
+    console.log("res.data.posts");
   };
 
-  React.useEffect(() => {
-    console.log("ssssss");
-    get();
+  useEffect(() => {
+    getPosts();
   }, []);
-  const postsList = posts.map((post, index) => (
-    // Only do this if items have no stable IDs
-    <Grid item xs={6} md={4}>
-      <PostItem post={post.post} index={index} />
-    </Grid>
-  ));
+//   const postsList = posts.map((post, index) => (
+//     // Only do this if items have no stable IDs
+//     <Grid item xs={6} md={4}>
+//       <PostItem post={post.post} index={index} />
+//     </Grid>
+//   ));
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2}>
-        {postsList}
+        {posts && 
+        posts.map((post, index) => (
+            // Only do this if items have no stable IDs
+            <Grid item xs={6} md={4}>
+              <PostItem post={post.post} index={index} />
+            </Grid>
+          ))}
       </Grid>
     </Box>
   );

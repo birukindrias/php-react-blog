@@ -26,6 +26,12 @@ class Request
             return true;
         }
     }
+    public function isFILE()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'FILES') {
+            return true;
+        }
+    }
     public function isPost()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -44,7 +50,49 @@ class Request
             foreach ($_POST as $key => $value) {
                 $BODY[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS);
             }
+            foreach ($_FILES as $key => $value) {
+                $BODY[$key] =  $value;
+            }
         }
+       
         return $BODY;
+    }
+    public function fileUpload($name, $path, $types = [] ?? '', $size = '' ?? null)
+
+    {
+        var_dump($_FILES[$name]);
+        if (isset($_FILES[$name])) {
+            $errors = array();
+            $file_name = $_FILES[$name]['name'];
+            $file_size = $_FILES[$name]['size'];
+            $file_tmp = $_FILES[$name]['tmp_name'];
+            $file_type = $_FILES[$name]['type'];
+            $file_ext = strtolower(end(explode('.', $_FILES[$name]['name'])));
+            $extensions = $types;
+            if ($types != []) {
+                if (in_array($file_ext, $extensions) === false) {
+                    $errors[] = "extension not allowed, please choose a JPEG or PNG file.";
+                }
+            }
+
+            if ($size != '') {
+                if ($file_size > $size) {
+                    $errors[] = "File size must be excately $$size MB";
+                }
+            }
+            $rand = rand(0, 30000);;
+            if ($file_size > 10) {
+                if (empty($errors) == true) {
+                    $randNme = rand(0, 30000) . $file_name;
+                    move_uploaded_file($file_tmp, dirname(__DIR__) . '/storage/files/' . $path . '/' . $randNme);
+
+                    return $randNme;
+                } else {
+                    return $errors;
+                }
+            }
+        }
+
+        return false;
     }
 }

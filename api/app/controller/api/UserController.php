@@ -7,7 +7,7 @@ use App\app\modal\Users;
 
 class UserController
 {
-    public function getAllUsers()
+    public function index()
     {
         $Users = new Users();
         $data =  $Users->SelectAll();
@@ -22,7 +22,7 @@ public
         return
         $randomNumber;
     } 
-    public function createUser()
+    public function create()
     {
         // echo  json_encode(['res' => 'this user already exist!']);
         // return true;

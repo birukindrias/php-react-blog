@@ -6,57 +6,71 @@ import { Button } from "@material-tailwind/react";
 import PostsItem from "../../components/items/PostsItem.jsx";
 import { Input } from "@material-tailwind/react";
 import { Textarea } from "@material-tailwind/react";
+import UploadComponent from "../../components/items/i.jsx";
 export const Dashboard = () => {
   const user = useSelector((state) => state.userDataSlice.userData.user);
-  console.log(user);
-  const [postData, setpostData] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const [postValues, setpostValues] = useState({
+    user_id: user.id,
+    body: "",
+    img: {},
+  });
+  //   erorr
+  // handle form insertion
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const handleChange = (event) => {
+    console.log(postValues);
+
+    setpostValues({
+      ...postValues,
+      [event.target.name]: event.target.value,
+    });
+    if (event.target.files) {
+      setpostValues({
+        ...postValues,
+        img: event.target.files[0],
+      });
+    }
+    console.log(postValues);
+  };
 
   const createPost = async () => {
-    await fetch("http://localhost:8080/api/v1/createpost", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({
-        user_id: user.id,
-        title: postData,
-        img: postData,
-        post: postData,
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
-      });
+    const response = await axios.post(
+      "http://localhost:8080/api/v1/createpost",
+      postValues ,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    console.log(response.data);
   };
 
   return (
     <>
-      {/* <input
-        type="text"
-        onChange={(e) => {
-          setpostData(e.target.value);
-        }}
-      /> */}
+     
       <div className=" ">
         <div className="w-ful px-60  flex flex-col align-bottom justify-between h-60">
           <Textarea
             label="Body"
-            onChange={(e) => {
-              setpostData(e.target.value);
-            }}
+            name="body"
+            value={postValues.body}
+            onChange={handleChange}
           />
-                <Input label="Image" icon={<i className="fas fa-heart"  />} type="file" />
-          {/* <textarea
-          name=""
-          id=""
-          cols="30"
-          rows="10"
-          onChange={(e) => {
-            setpostData(e.target.value);
-          }}
-        ></textarea> */}
+          <Input
+            label="Image"
+            icon={<i className="fas fa-heart" />}
+            name="img"
+            type="file"
+            onChange={handleChange}
+          />
+          <UploadComponent />
+          <img src="http://localhost:8080/filea/img/7444Screenshot_2023-03-09_16_49_23.png"/>
 
           <Button
             type="submit"
@@ -67,7 +81,7 @@ export const Dashboard = () => {
             post
           </Button>
         </div>
-        <PostsItem  />
+        <PostsItem />
       </div>
     </>
   );

@@ -9,7 +9,7 @@ class PostController
 {
 
     // posts
-    public function getAllPosts()
+    public function index()
     {
         $posts = new Post();
 
@@ -18,19 +18,39 @@ class PostController
         // return    var_dump($data );
         $posts = new Post();
         $data =  $posts->SelectAll();
-        echo json_encode(['posts' => sort($data,SORT_DESC)]);
+        echo json_encode(['posts' => array_reverse($data)]);
+    }
+    public function img()
+    {
+
+        // echo json_encode(['posts' => array_reverse(App::$kernel->request->getBody())]);
+        
+
+     $imgName= App::$kernel->request->fileUpload('selectedFile','img');
+     var_dump($imgName);
+      return  var_dump(App::$kernel->request->getBody());
     }
     // create post
-    public  function createPost()
+    public  function create()
     {
         // return "/api/createPost";
             $Data = App::$kernel->request->getBody();
-          
+            $imgName= App::$kernel->request->fileUpload('img','img');
+            var_dump($imgName);
+            $json = file_get_contents('php://input'); // Returns data from the request body
+            // var_dump($json);
+            $User = new Post();
+            $decodedData = json_decode($json, true);
+            var_dump("decodedData");
+            var_dump($decodedData);
+            $decodedData['img']=$imgName;
         if (App::$kernel->request->isPost()) {
             $json = file_get_contents('php://input'); // Returns data from the request body
             // var_dump($json);
             $User = new Post();
             $decodedData = json_decode($json, true);
+            var_dump($decodedData);
+            $decodedData['img']=$imgName;
             $User->loadData($decodedData);
 
             // var_dump(  $User);
