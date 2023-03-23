@@ -14,9 +14,7 @@ class Likes
     }
     public function down()
     {
-        $SQL_QUERY = "DROP TABLE IF EXISTS  Likes
-       )
-       ENGINE = INNODB;";
+        $SQL_QUERY = "DROP TABLE IF EXISTS  likes";
         App::$kernel->db->pdo->exec($SQL_QUERY);
     }
 }

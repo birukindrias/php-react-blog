@@ -17,9 +17,7 @@ class Posts
     }
     public function down()
     {
-        $SQL_QUERY = "DROP TABLE IF EXISTS  posts
-       )
-       ENGINE = INNODB;";
+        $SQL_QUERY = "DROP TABLE IF EXISTS  posts";
         App::$kernel->db->pdo->exec($SQL_QUERY);
     }
 }

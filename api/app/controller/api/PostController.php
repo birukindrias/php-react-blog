@@ -18,59 +18,32 @@ class PostController
         // return    var_dump($data );
         $posts = new Post();
         $data =  $posts->SelectAll();
-        echo json_encode(['posts' => array_reverse($data)]);
+        // var_dump(array_reverse($data));
+        // var_dump($data);
+        echo json_encode(['posts' => $data]);
     }
     public function img()
     {
 
-        // echo json_encode(['posts' => array_reverse(App::$kernel->request->getBody())]);
-        
-
-     $imgName= App::$kernel->request->fileUpload('selectedFile','img');
-     var_dump($imgName);
-      return  var_dump(App::$kernel->request->getBody());
+        // ? echo json_encode(['posts' => array_reverse(App::$kernel->request->getBody())]);
+        $imgName = App::$kernel->request->fileUpload('selectedFile', 'post_images');
+        return  var_dump(App::$kernel->request->getBody());
     }
     // create post
     public  function create()
     {
         // return "/api/createPost";
-            $Data = App::$kernel->request->getBody();
-            $imgName= App::$kernel->request->fileUpload('img','img');
-            var_dump($imgName);
-            $json = file_get_contents('php://input'); // Returns data from the request body
-            // var_dump($json);
-            $User = new Post();
-            $decodedData = json_decode($json, true);
-            var_dump("decodedData");
-            var_dump($decodedData);
-            $decodedData['img']=$imgName;
+        $Data = App::$kernel->request->getBody();
+        $imgName = App::$kernel->request->fileUpload('img', 'post_images');
+        $User = new Post();
         if (App::$kernel->request->isPost()) {
-            $json = file_get_contents('php://input'); // Returns data from the request body
-            // var_dump($json);
             $User = new Post();
-            $decodedData = json_decode($json, true);
-            var_dump($decodedData);
-            $decodedData['img']=$imgName;
-            $User->loadData($decodedData);
+            $Data['img'] = $imgName;
+            $User->loadData($Data);
 
-            // var_dump(  $User);
-            // var_dump($User->save());
             if ($User->save()) {
-                $foundedPost = $User->FindOne(['post' => $decodedData['post']]);
-        return json_encode(['res' =>   $decodedData]);
-
-            }
-            $Data = App::$kernel->request->getBody();
-            $User = new Post();
-            $json = file_get_contents('php://input'); // Returns data from the request body
-            // var_dump($json);
-
-            $decodedData = json_decode($json, true);
-            // var_dump($decodedData);
-            $User->loadData($decodedData);
-            if ($User->save()) {
-                $foundedPost = $User->FindOne(['post' => $decodedData['post']]);
-                return  json_encode(['res' => $foundedPost]);
+                $foundedPost = $User->FindOne(['post' => $Data['post']]);
+                return json_encode(['res' =>  $foundedPost]);
             }
             return  json_encode(['res' => 'false']);
         }

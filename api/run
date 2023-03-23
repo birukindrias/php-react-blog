@@ -20,23 +20,68 @@ class  artisan
       $argv[0] == 'run' and
       key_exists(1,$argv)
     ) {
-        echo "wo";
-    //   shell_exec("php -S localhost:8080 -t public");
+     if (in_array('--down',$argv)) {
+        $upd = 'down';
+        echo '------------rolling-----------';
     require_once __DIR__ . "/kernel/migration/artisan_migrate.php";
 
-    shell_exec("php artisan_migrate.php");
+     }
+     if (in_array('--up',$argv)) {
+        $upd = 'up';
+        echo '------------migrating-----------';
+    require_once __DIR__ . "/kernel/migration/artisan_migrate.php";
+
+     }
+        foreach ($argv as $key) {
+            
+            // up();
+            echo $key;
+
+            if ($key == '--m' && $key == '--down'
+            ) {
+                echo $key;
+                $upd = 'up';
+                echo 'up';
+            require_once __DIR__ . "/kernel/migration/artisan_migrate.php";
+
+                  
+              if ($key == '--down' ) {
+                $upd = 'down';
+                echo 'donw';
+            require_once __DIR__ . "/kernel/migration/artisan_migrate.php";
+
+                  
+                }
+              if ($key =='up') {
+                $upd = 'up';
+                echo 'up';
+
+                require_once __DIR__ . "/kernel/migration/artisan_migrate.php";
+                  
+                }
+                echo $key;
+              echo $key;
+      
+            //   require_once __DIR__ . "/kernel/migration/artisan_migrate.php";
+              // shell_exec("php artisan_migrate.php");
+            }
+            if ($key == '--roll') {
+              if ($key == 'down' || $key == 'up') {
+                  $func =  $key ?? '';
+                  
+                }
+                echo 'roll';
+              echo $key;
+      
+            //   require_once __DIR__ . "/kernel/migration/artisan_migrate.php";
+      
+              // shell_exec("php artisan_migrate.php");
+            }
+    //   shell_exec("php -S localhost:8080 -t public");
+
+    // shell_exec("php artisan_migrate.php");
     }
-    foreach ($argv as $key) {
-
-
-      if ($key == '--m') {
-        if ($key == 'down' || $key == 'up') {
-          $func =  $key ?? '';
-        }
-        require_once __DIR__ . "/kernel/migration/artisan_migrate.php";
-
-        shell_exec("php artisan_migrate.php");
-      }
+  
       if ($key == '-c') {
         require_once __DIR__ . "/kernel/strings/controller/controller.php";
         $controller =  fopen('app/controller/' . $file . '.php', 'wr', true);

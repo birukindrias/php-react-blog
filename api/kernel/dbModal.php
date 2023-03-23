@@ -45,7 +45,20 @@ abstract class dbModal
         $QUERY_STMT->execute();
         return true;
     }
+    public function saveToken($id,array $values)
+    {
+        $table_name = $this->table_name();
+        $array_key = array_keys($values);
+        $input_keys = array_map(fn ($key) => ":$key", $array_key);
+        $token =  $values['remember_token'];
+        // $SQL_QUERY = "INSERT $table_name (user_id,post) VALUES (:user_id,post)";
+        $SQL_QUERY = "UPDATE $table_name SET remember_token = $token WHERE id = $id";
 
+        $QUERY_STMT = App::$kernel->db->pdo->prepare($SQL_QUERY);
+
+        $QUERY_STMT->execute();
+        return true;
+    }
     public  static function FindOne(array $thisarrayok)
     {
         // var_dump($thisarrayok);

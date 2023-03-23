@@ -22,12 +22,28 @@ class DB
       // echo "fuck";
     }
   }
-  public function apply_migrations()
+  public function apply_migrations($upd)
   {
     $this->create_table_migrations();
     $migrations_files = scandir(App::$HOME_PATH . "/database/migrations/");
-    // var_dump($migrations_files);
     $NEW_MIGRATIONS = array_diff($migrations_files, $this->existing_migrations());
+    if ($upd == 'down') {
+      foreach ($migrations_files  as $migration_name) {
+      if ($migration_name == '.' || $migration_name == '..') {
+        continue;
+      }
+   
+      require_once App::$HOME_PATH . "/database/migrations/$migration_name";
+      $CLASS_NAMES = pathinfo($migration_name, PATHINFO_FILENAME);
+      $CLASS = new $CLASS_NAMES;
+
+      $CLASS->down();
+   
+        }
+        $SQL_QUERY = "DROP TABLE IF EXISTS  migrations";
+        App::$kernel->db->pdo->exec($SQL_QUERY);
+        return true;
+    }
     foreach ($NEW_MIGRATIONS as $migration_name) {
       if ($migration_name == '.' || $migration_name == '..') {
         continue;
@@ -35,7 +51,7 @@ class DB
       require_once App::$HOME_PATH . "/database/migrations/$migration_name";
       $CLASS_NAMES = pathinfo($migration_name, PATHINFO_FILENAME);
       $CLASS = new $CLASS_NAMES;
-      $CLASS->up();
+      $CLASS->$upd();
       $this->the_migrations_array[] = $migration_name;
     }
     if (!empty($this->the_migrations_array)) {
