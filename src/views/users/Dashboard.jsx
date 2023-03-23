@@ -24,7 +24,7 @@ export const Dashboard = () => {
     setSelectedFile(event.target.files[0]);
   };
 
-  const handleChange = (event) => {
+  const handleChange = (event) => {p
     console.log(postValues);
 
     setpostValues({

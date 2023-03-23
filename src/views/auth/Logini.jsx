@@ -36,6 +36,8 @@ function Copyright(props) {
     </Typography>
   );
 }
+// Pa$$w0rd!
+// faficyji@mailinator.com
 
 const theme = createTheme();
 
@@ -43,12 +45,17 @@ export default function SignInSidei() {
   const user = useSelector((state) => state.userDataSlice.userData["user"]);
   const [useriData, setuserData] = useState();
   const [formValues, setFormValues] = useState({
-    email: "",
-    password: "",
+    email: "faficyji@mailinator.com",
+    password: "Pa$$w0rd!",
   });
   //   erorr
   const [errorMessage, setErrorMessage] = useState(null);
   // handle form insertion
+  const dispatch = useDispatch();
+  const saveUser = (userdatas) => {
+    dispatch(actions_usr.userDataAdd(userdatas));
+    dispatch(actions_usr.signinUser());
+  };
   const handleChange = (event) => {
     setFormValues({
       ...formValues,
@@ -60,7 +67,7 @@ export default function SignInSidei() {
     event.preventDefault();
     console.log(formValues);
     const response = await axios.post(
-      "http://localhost:8080/api/v1/create",
+      "http://localhost:8080/api/v1/login",
       formValues
     );
     console.log(response.data);
@@ -74,10 +81,7 @@ export default function SignInSidei() {
     //   setErrorMessage(error.response.data.message);
   };
 
-  const dispatch = useDispatch();
-  const saveUser = (userdatas) => {
-    dispatch(actions_usr.userDataAdd(userdatas));
-  };
+
   const signinUser = () => {
     dispatch(actions_usr.signinUser());
   };

@@ -48,6 +48,14 @@ export default function SignInSide() {
   });
   //   erorr
   const [errorMessage, setErrorMessage] = useState(null);
+  const dispatch = useDispatch();
+  const saveUser = (userdatas) => {
+    dispatch(actions_usr.userDataAdd(userdatas));
+  };
+  const signinUser = () => {
+    dispatch(actions_usr.signinUser());
+  };
+
   // handle form insertion
   const handleChange = (event) => {
     setFormValues({
@@ -74,13 +82,6 @@ export default function SignInSide() {
     //   setErrorMessage(error.response.data.message);
   };
 
-  const dispatch = useDispatch();
-  const saveUser = (userdatas) => {
-    dispatch(actions_usr.userDataAdd(userdatas));
-  };
-  const signinUser = () => {
-    dispatch(actions_usr.signinUser());
-  };
 
   return (
     <ThemeProvider theme={theme}>

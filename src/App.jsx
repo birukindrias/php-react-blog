@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "./output.css";
 import Layout from "./components/layout/Layout";
 import { Routes, Route } from "react-router-dom";
@@ -20,14 +20,39 @@ import { default as TopNavbar } from "./components/items/TopNavbar.jsx";
 import { initializeUseSelector } from "react-redux/es/hooks/useSelector";
 import PostsItem from "./components/items/PostsItem";
 import { Profile } from "./views/users/Profile";
+import { actions_usr } from "./store/users";
+import axios from "axios";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
   const onLogout = () => {
     navigate("/login");
   };
+  const dispatch = useDispatch();
+  const saveUser = (userdatas) => {
+    dispatch(actions_usr.userDataAdd(userdatas));
+  };
+  const signinUser = () => {
+    dispatch(actions_usr.signinUser());
+  };
 
-  let user = useSelector((state) => state.userDataSlice.userData["user"]);
+  let token = useSelector((state) => state.userDataSlice.token);
+  const handleSubmit = async () => {
+    const response = await axios.post("http://localhost:8080/api/v1/getuser", {
+      token: token,
+    });
+
+    console.log(response.data.data);
+    saveUser(response.data.data);
+    navigate("/dashboard");
+
+    //   setErrorMessage(error.response.data.message);
+  };
+  handleSubmit
+  console.log(token);
+  useEffect(() => {
+    handleSubmit();
+  }, [token]);
 
   return (
     <div className="App">
@@ -38,7 +63,7 @@ function App() {
           {/* <Route path="/" element={<Home />} />
     <Route path="/home" element={<HomePage />} /> */}
 
-          {user ? (
+          {token ? (
             <>
               <Route path="/dashboard" element={<Dashboard />} />
 

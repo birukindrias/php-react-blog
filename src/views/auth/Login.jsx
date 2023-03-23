@@ -32,7 +32,7 @@ const Login = ({ isLoggedIn, onLogin }) => {
     event.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/v1/createUser",
+        "http://localhost:8080/api/v1/login",
         formValues
       );
       saveUser(response.data.data);

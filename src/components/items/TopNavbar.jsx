@@ -1,10 +1,41 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { actions_usr } from "../../store/users";
 // import Ck from "./Ck.jsx";
 
 const TopNavbar = ({ isLoggedIn, onLogout }) => {
-    const user = useSelector((state) => state.userDataSlice.userData.token);
+  const dispatch = useDispatch();
+  const Navigate = useNavigate();
+//   const user = useSelector((state) => state.userDataSlice.token);
+  const logout = () => {
+    dispatch(actions_usr.logout());
+    Navigate("/login");
+  };
+  const saveUser = (userdatas) => {
+    dispatch(actions_usr.userDataAdd(userdatas));
+  };
+  const signinUser = () => {
+    dispatch(actions_usr.signinUser());
+  };
+
+  let user = useSelector((state) => state.userDataSlice.token);
+  const handleSubmit = async () => {
+    const response = await axios.post("http://localhost:8080/api/v1/getuser", {
+      token: user,
+    });
+
+    console.log(response.data.data);
+    saveUser(response.data.data);
+    navigate("/dashboard");
+
+    //   setErrorMessage(error.response.data.message);
+  };
+  handleSubmit
+  console.log(user);
+  useEffect(() => {
+    handleSubmit();
+  }, [user]);
   return (
     <div>
       <div className="flex-1 flex flex-col">
@@ -20,28 +51,41 @@ const TopNavbar = ({ isLoggedIn, onLogout }) => {
           </ul>
 
           <ul className="flex items-center flex-row justify-between">
-           
             {user ? (
               <>
                 <li>
-                  <h1 className="pl-8 px-3 lg:pl-0 text-gray-700"><Link to='/dashboard'>Dashboard</Link></h1>
+                  <h1 className="pl-8 px-3 lg:pl-0 text-gray-700">
+                    <Link to="/dashboard">Dashboard</Link>
+                  </h1>
                 </li>
                 <li>
-                  <h1 className="pl-8 px-3 lg:pl-0 text-gray-700"><Link to='/profile'>Profile</Link></h1>
+                  <h1 className="pl-8 px-3 lg:pl-0 text-gray-700">
+                    <Link to="/profile">Profile</Link>
+                  </h1>
                 </li>
                 <li>
-                  <h1 className="pl-8 px-3 lg:pl-0 text-gray-700">Logout</h1>
+                  <h1
+                    className="pl-8 px-3 lg:pl-0 text-gray-700"
+                    onClick={logout}
+                  >
+                    Logout
+                  </h1>
                 </li>
               </>
-            ) :   <>
-             <li>
-              <h1 className="pl-8  px-3 lg:pl-0 text-gray-700"><Link to='/'>Home</Link></h1>
-            </li>
-            <li>
-              <h1 className="pl-8 px-3 lg:pl-0 text-gray-700" ><Link to='login'>login</Link></h1>
-            </li>
-            
-          </>}
+            ) : (
+              <>
+                <li>
+                  <h1 className="pl-8  px-3 lg:pl-0 text-gray-700">
+                    <Link to="/">Home</Link>
+                  </h1>
+                </li>
+                <li>
+                  <h1 className="pl-8 px-3 lg:pl-0 text-gray-700">
+                    <Link to="login">login</Link>
+                  </h1>
+                </li>
+              </>
+            )}
           </ul>
 
           <ul className="flex items-center">
