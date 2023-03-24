@@ -37,6 +37,28 @@ class UserController
         ], 'token' => $token]]);
         // echo json_encode(['user'=>$userData], true);
     }
+    public function search()
+    {
+        $json = file_get_contents('php://input'); // Returns data from the request body
+        $token = json_decode($json, true);
+
+        $user = new Users();
+        $foundedUser = $user->Like(['username' => $token['searchuser']]);
+        // var_dump($userData);
+        // var_dump($token);
+        if (!empty($foundedUser)) {
+            return  json_encode(['data' => [
+                'users' =>
+                $foundedUser
+            ]]);
+        }
+        return json_encode(['data' => [
+            'users' =>
+            null
+        ]]);
+
+        // echo json_encode(['user'=>$userData], true);
+    }
     public function create()
     {
         // echo  json_encode(['res' => 'this user already exist!']);

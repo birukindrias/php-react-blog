@@ -4,6 +4,8 @@ const userSlice = createSlice({
     name: "userData",
     initialState: {
         userData: [localStorage.getItem("user")],
+        users: [],
+        update: 'false',
         token: localStorage.getItem("token"),
     },
     reducers: {
@@ -15,11 +17,22 @@ const userSlice = createSlice({
 
             // state.userData = a;
         },
+        searchResult(state, action) {
+            state.users = action.payload;
+            return
+        },
         signinUser(state) {
             let token = state.userData['token'];
             state.token = token;
             localStorage.setItem("token", token);
             console.log(token);
+
+
+            return state;
+        },
+        setTheUpdate(state, action) {
+
+            state.update = action.payload;
 
 
             return state;

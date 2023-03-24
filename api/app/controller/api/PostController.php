@@ -41,7 +41,7 @@ class PostController
             $foundedUser[0]['id']
         );
         if (empty($data)) {
-            echo json_encode(['posts' => 'null']);
+            echo json_encode(['posts' => null]);
             return;
         }
         echo json_encode(['posts' => $data]);

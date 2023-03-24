@@ -12,6 +12,7 @@ $kernel::$kernel->router->post('/api/v1/createpost', [PostController::class, 'cr
 $kernel::$kernel->router->post('/api/v1/img', [PostController::class, 'img']);
 $kernel::$kernel->router->get('/api/v1/posts', [PostController::class, 'index']); 
 $kernel::$kernel->router->post('/api/v1/userposts', [PostController::class, 'userPosts']); 
+$kernel::$kernel->router->post('/api/v1/search', [UserController::class, 'search']); 
 // $kernel::$kernel->router->post('/api/v1/insert', [siteController::class, 'insertUser']);
 // $kernel::$kernel->router->post('/api/v1/insertPost', [siteController::class, 'insertPost']);
 

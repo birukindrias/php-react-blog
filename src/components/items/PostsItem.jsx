@@ -16,19 +16,23 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-export default function PostsItem({ postValues }) {
+export default function PostsItem() {
   const [posts, setPosts] = useState([]);
 
+  const update  = useSelector((state) => state.userDataSlice.update);
 
-  console.log(posts);
+  console.log('update');
+  console.log(update);
   let getPosts = async () => {
     let res = await axios.get("http://localhost:8080/api/v1/posts");
     setPosts(res.data.posts);
   };
 
   useEffect(() => {
+      console.log('update')
+      console.log(update)
     getPosts();
-  }, [postValues]);
+  }, [update]);
   //   const postsList = posts.map((post, index) => (
   //     // Only do this if items have no stabl e IDs
   //     <Grid item xs={6} md={4}>

@@ -11,6 +11,7 @@ import Ck from "./components/items/Ck";
 import { default as TopNavbar } from "./components/items/TopNavbar.jsx";
 
 import { Profile } from "./views/users/Profile";
+import Users from "./components/items/Users";
 
 function App() {
   let token = useSelector((state) => state.userDataSlice.token);
@@ -28,6 +29,7 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
 
               <Route path="/profile" element={<Profile />} />
+              <Route path="/users" element={<Users />} />
               <Route path="/*" element={<Ck />} />
 
             </>

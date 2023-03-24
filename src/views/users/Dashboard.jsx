@@ -18,9 +18,6 @@ export const Dashboard = () => {
   });
   //   erorr
   // handle form insertion
-  const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
-  };
 
   const handleChange = (event) => {
     console.log(postValues);
@@ -70,40 +67,8 @@ export const Dashboard = () => {
   return (
     <>
       <div className=" ">
-        <div className="w-full px-2 py-2 lg:px-60  flex flex-col align-bottom gap-2 justify-between h-fit">
-          <Textarea
-            label="post"
-            name="post"
-            value={postValues.post}
-            onChange={handleChange}
-          />
-          <Input
-            label="Title"
-            name="title"
-            type="text"
-            value={postValues.title}
-            onChange={handleChange}
-          />
-          <Input
-            label="Image"
-            icon={<i className="fas fa-heart" />}
-            name="img"
-            type="file"
-            onChange={handleChange}
-          />
-          {/* <UploadComponent /> */}
-          {/* <img src="http://localhost:8080/filea/img/7444Screenshot_2023-03-09_16_49_23.png"/> */}
-
-          <Button
-            type="submit"
-            onClick={() => {
-              createPost();
-            }}
-          >
-            post
-          </Button>
-        </div>
-        <PostsItem postValues={update} />
+      
+        <PostsItem />
       </div>
     </>
   );

@@ -134,6 +134,27 @@ abstract class dbModal
         $retu = $QUERY_STMT->fetchAll(PDO::FETCH_ASSOC);
         return $retu;
     }
+    public  static function Like(array $thisarrayok)
+    {
+        // var_dump($thisarrayok);
+        $table_name = static::table_name();
+        $array_key = array_keys($thisarrayok);
+        $input_keys = implode(' AND ', array_map(fn ($key) => "  $key Like :$key", $array_key));
+
+        // $input_keys = array_map(fn ($key) => "$key = :$key", $array_key);
+        $SQL_QUERY = "SELECT * FROM $table_name WHERE  $input_keys";
+
+        $QUERY_STMT = App::$kernel->db->pdo->prepare($SQL_QUERY);
+        foreach ($thisarrayok as $key => $value) {
+            $QUERY_STMT->bindValue(":$key", '%'.$value.'%');
+        }
+
+        $QUERY_STMT->execute();
+        // var_dump(pdo_error(App::$kernel->db->pdo));
+
+        $retu = $QUERY_STMT->fetchAll(PDO::FETCH_ASSOC);
+        return $retu;
+    }
     public  static function innerJoin(array $thisarrayok)
     {
         // var_dump($thisarrayok);

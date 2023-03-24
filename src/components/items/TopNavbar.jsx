@@ -3,13 +3,25 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { actions_usr } from "../../store/users";
+import { IconButton } from "@material-tailwind/react";
 import { Input, Button } from "@material-tailwind/react";
+
+import { Textarea } from "@material-tailwind/react";
 const TopNavbar = () => {
+  const [model, setmodel] = useState(false);
+  const [update, setupdate] = useState(false);
+
   const dispatch = useDispatch();
   let user = useSelector((state) => state.userDataSlice.token);
   const navigate = useNavigate();
   const saveUser = (userdata) => {
     dispatch(actions_usr.userDataAdd(userdata));
+  };
+  const setTheUpdate = (userdata) => {
+    dispatch(actions_usr.setTheUpdate());
+  };
+  const searchResult = (users) => {
+    dispatch(actions_usr.searchResult(users));
   };
   const userValue =
     useSelector((state) => state.userDataSlice.userData["user"]) ?? false;
@@ -19,6 +31,51 @@ const TopNavbar = () => {
   let imgi = `http://localhost:8080/storage/profile/${imagevar}`;
   let postini = `http://localhost:8080/storage/files/blog.png`;
 
+  const [postValues, setpostValues] = useState({
+    user_id: user.id,
+    post: "",
+    img: {},
+  });
+  //   erorr
+  // handle form insertion
+
+  const handleChangepost = (event) => {
+    console.log(postValues);
+
+    setpostValues({
+      ...postValues,
+      [event.target.name]: event.target.value,
+    });
+    if (event.target.files) {
+      setpostValues({
+        ...postValues,
+        img: event.target.files[0],
+      });
+    }
+
+    console.log(postValues);
+  };
+
+  const createPost = async () => {
+    setupdate(false);
+
+    const response = await axios.post(
+      "http://localhost:8080/api/v1/createpost",
+      postValues,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    setTheUpdate(true);
+    console.log(response.data);
+    setmodel(!model);
+    if (response.data) {
+      setTheUpdate(true);
+      setTheUpdate(false);
+    }
+  };
   //   let imgi = `http://localhost:8080/storage/profile/${userValue.img}`;
 
   const getUserFromBackend = async () => {
@@ -30,6 +87,13 @@ const TopNavbar = () => {
     console.log(response.data.data);
     saveUser(response.data.data);
   };
+  const openModel = (state) => {
+    console.log(model);
+    setmodel(!model);
+    console.log(model);
+
+    // console.log('asjdfkajfkssdhsdkfssffsdfasdgsdgggdfngdjgjdgjdkgjdjfsjfjssdjdhhjhhhhh')
+  };
   console.log(searchitem);
 
   const handleChange = (event) => {
@@ -38,13 +102,20 @@ const TopNavbar = () => {
     setsearchitem(event.target.value);
     console.log(searchitem);
   };
-  const Search = async () => {
-    const response = await axios.post("http://localhost:8080/api/v1/search", {
-      searchuser: searchitem,
-    });
+  const Search = async (e) => {
+    if (searchitem != "") {
+      e.preventDefault();
+      console.log(searchitem);
+      const response = await axios.post("http://localhost:8080/api/v1/search", {
+        searchuser: searchitem,
+      });
 
-    console.log("the data");
-    console.log(response.data.data);
+      console.log("the data");
+      console.log(response.data.data.users);
+      searchResult(response.data.data.users);
+      setsearchitem("");
+      navigate("/users");
+    }
   };
   //   const pageAccessedByReload =
   //     (window.performance.navigation &&
@@ -83,30 +154,35 @@ const TopNavbar = () => {
           </ul>
 
           <ul className="flex items-center flex-row justify-between">
-            <div className="relative flex w-full max-w-[24rem]">
-       
-              <Input
-
-                type="text"
-                name="searchitem"
-                placeholder="Search"
-                className="pr-20"
-                containerProps={{
+            <div className="relative flex flex-col w-fit  max-w-[28rem]">
+              <form onSubmit={Search}>
+                <Input
+                  type="text"
+                  name="searchitem"
+                  placeholder="Search"
+                  className="pr-20"
+                  containerProps={{
                     className: "min-w-0",
-                }}
-                value={searchitem}
-                onChange={handleChange}
-              />
-              <Button
-                size="sm"
-                // color={email ? "blue" : "blue-gray"}
-                // disabled={!searchitem}
-                onClick={Search}
-                className="!absolute right-1 top-1 rounded"
-              >
-                Invite
-              </Button>
+                  }}
+                  value={searchitem}
+                  onChange={handleChange}
+                />
+
+                <Button
+                  size="sm"
+                  // color={email ? "blue" : "blue-gray"}
+                  //   disabled={!searchitem}
+                  onClick={Search}
+                  className="!absolute right-1 top-1 rounded"
+                >
+                  Invite
+                </Button>
+              </form>
             </div>
+            <IconButton variant="outlined" onClick={openModel}>
+              <i className="fas fa-circle-plus" onClick={openModel} />
+            </IconButton>
+            {/* <i class="fa-solid fa-circle-plus text-orange-700 w-20 h-20" ></i> */}
             {user ? (
               <>
                 {/* <li>
@@ -165,7 +241,7 @@ const TopNavbar = () => {
                   </svg>
                 </li>
                 <li className="h-10 w-10">
-                  <Link to="/profile">
+                  <Link to="/profile" state={{ some: "useoasjfsd" }}>
                     {" "}
                     <img
                       className="h-full w-full rounded-full mx-auto"
@@ -181,6 +257,87 @@ const TopNavbar = () => {
           </ul>
         </nav>
       </div>
+      {model && (
+        <div className="absolute  top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mt-5 z-10 mx-auto w-full h-full max-w-2xl md:h-auto">
+          <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                Edit Profile
+              </h3>
+              <button
+                onClick={openModel}
+                type="button"
+                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                data-modal-hide="defaultModal"
+              >
+                <svg
+                  aria-hidden="true"
+                  className="w-5 h-5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                  ></path>
+                </svg>
+                <span className="sr-only">Close modal</span>
+              </button>
+            </div>
+            <div className="p-6 space-y-6 ">
+              <div className="w-full px-2 py-2 lg:px-60  flex flex-col align-bottom gap-2 justify-between h-fit">
+                <Textarea
+                  label="post"
+                  name="post"
+                  value={postValues.post}
+                  onChange={handleChangepost}
+                />
+                <Input
+                  label="Title"
+                  name="title"
+                  type="text"
+                  value={postValues.title}
+                  onChange={handleChangepost}
+                />
+                <Input
+                  label="Image"
+                  icon={<i className="fas fa-heart" />}
+                  name="img"
+                  type="file"
+                  onChange={handleChangepost}
+                />
+                {/* <UploadComponent /> */}
+                {/* <img src="http://localhost:8080/filea/img/7444Screenshot_2023-03-09_16_49_23.png"/> */}
+
+                <Button
+                  type="submit"
+                  onClick={() => {
+                    createPost();
+                  }}
+                >
+                  post
+                </Button>
+              </div>
+            </div>
+            {/* <div className="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                <button
+                  type="button"
+                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                >
+                  I accept
+                </button>
+                <button
+                  type="button"
+                  className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
+                >
+                  Decline
+                </button>
+              </div> */}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

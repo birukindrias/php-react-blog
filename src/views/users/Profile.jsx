@@ -5,7 +5,7 @@ import axios from "axios";
 
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import PostItem from "../../components/items/PostItem";
 import { actions_usr } from "../../store/users";
 // import { actions_usr } from "../store/users";
@@ -28,7 +28,10 @@ const Profile = () => {
   const user =
     useSelector((state) => state.userDataSlice.userData["user"]) ?? false;
   const token = useSelector((state) => state.userDataSlice.token) ?? false;
-  console.log(user);
+//   let { state } = useLocation();
+//   console.log(user);
+//   console.log('state');
+//   console.log(state.some);
   const [model, setmodel] = useState(false);
   const [formValues, setFormValues] = useState({
     remember_token: token,
