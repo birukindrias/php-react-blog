@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import { makeStyles } from "@mui/styles";
 import {
   Grid,
@@ -13,6 +13,7 @@ import  { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { actions_post } from "../../store/posts";
+import { actions_usr } from "../../store/users";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,6 +32,29 @@ function Posts() {
     const [allpost, setallpost] = useState([]);
 
     const dispatch = useDispatch();
+    const saveUser = (userdatas) => {
+      dispatch(actions_usr.userDataAdd(userdatas));
+    };
+    const signinUser = () => {
+      dispatch(actions_usr.signinUser());
+    };
+  
+    let token = useSelector((state) => state.userDataSlice.token);
+    const handleSubmit = async () => {
+      const response = await axios.post("http://localhost:8080/api/v1/getuser", {
+        token: token,
+      });
+  
+      console.log(response.data.data);
+      saveUser(response.data.data);
+  
+      //   setErrorMessage(error.response.data.message);
+    };
+    handleSubmit()
+    console.log(token);
+    useLayoutEffect(() => {
+      handleSubmit();
+    }, []);
     const getPosts = (posts) => {
       dispatch(actions_post.postDataAdd(posts));
     };
@@ -52,6 +76,12 @@ useEffect(() => {
    console.log('sssssssssss')
    console.log(rees)
    console.log('asdjfiaidfa')
+   const response =  axios.post("http://localhost:8080/api/v1/getuser", {
+        token: token,
+      });
+  
+      console.log(response.data.data);
+      saveUser(response.data.data);
   },[]);
 
 const postsarray = ()=>{

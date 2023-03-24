@@ -66,7 +66,6 @@ class Request
             $file_size = $_FILES[$name]['size'];
             $file_tmp = $_FILES[$name]['tmp_name'];
             $file_type = $_FILES[$name]['type'];
-            var_dump($file_type);
             // $file_ext = strtolower(end(explode('.', $_FILES[$name]['name'])));
             $extensions = $types;
             // if ($types != []) {

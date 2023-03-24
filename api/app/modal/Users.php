@@ -7,11 +7,12 @@ use App\kernel\Modal;
 
 class Users extends Modal
 {
-    public string $firstname = '';
-    public string $lastname = '';
+    public string $username = '';
     public string $email = '';
     public string $password = '';
     public string $cpass = '';
+    public string $img= '';
+    public string $bio= '';
 
     public static function primaryKey(): string
     {
@@ -24,8 +25,7 @@ class Users extends Modal
     public function rules(): array
     {
         return [
-            'firstname' => [self::RULE_REQUIRED],
-            'lastname' => [self::RULE_REQUIRED],
+            'username' => [self::RULE_REQUIRED],
             'email' => [self::RULE_REQUIRED, [self::RULE_UNIQE], [self::RULE_EMAIL]],
             'password' => [self::RULE_PASS, [self::RULE_MAX, 'max' => 8]],
             // 'cpass' => [self::RULE_REQUIRED, [self::RULE_PASS, $this->pass = $this->password]],
@@ -39,10 +39,11 @@ class Users extends Modal
     public function attrs(): array
     {
         return [
-            'firstname',
-            'lastname',
+            'username',
             'email',
             'password',
+            'img',
+            'bio',
             // 'cpass'
 
         ];

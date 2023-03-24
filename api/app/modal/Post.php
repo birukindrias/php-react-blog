@@ -40,7 +40,7 @@ class Post extends Modal
             'post',
             'title',
             'img',
-             'user_id'
+            'user_id'
         ];
     }
 }

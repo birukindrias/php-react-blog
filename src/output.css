@@ -610,10 +610,6 @@ video {
   top: -0.625rem;
 }
 
-.bottom-1 {
-  bottom: 0.25rem;
-}
-
 .left-0 {
   left: 0px;
 }
@@ -688,10 +684,6 @@ video {
 
 .z-20 {
   z-index: 20;
-}
-
-.z-50 {
-  z-index: 50;
 }
 
 .z-\[999\] {
@@ -820,6 +812,14 @@ video {
   margin-top: 1px;
 }
 
+.mt-5 {
+  margin-top: 1.25rem;
+}
+
+.mt-10 {
+  margin-top: 2.5rem;
+}
+
 .block {
   display: block;
 }
@@ -912,10 +912,6 @@ video {
   height: 74px;
 }
 
-.h-\[calc\(100\%-1rem\)\] {
-  height: calc(100% - 1rem);
-}
-
 .h-full {
   height: 100%;
 }
@@ -927,6 +923,11 @@ video {
 
 .h-screen {
   height: 100vh;
+}
+
+.h-fit {
+  height: -moz-fit-content;
+  height: fit-content;
 }
 
 .max-h-96 {
@@ -1040,6 +1041,10 @@ video {
 
 .w-screen {
   width: 100vw;
+}
+
+.w-2 {
+  width: 0.5rem;
 }
 
 .min-w-\[100vw\] {
@@ -1231,8 +1236,16 @@ video {
           appearance: none;
 }
 
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .grid-cols-4 {
   grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .flex-row {
@@ -1279,10 +1292,6 @@ video {
   gap: 0px;
 }
 
-.gap-0\.5 {
-  gap: 0.125rem;
-}
-
 .gap-1 {
   gap: 0.25rem;
 }
@@ -1327,14 +1336,6 @@ video {
 
 .overflow-hidden {
   overflow: hidden;
-}
-
-.overflow-y-auto {
-  overflow-y: auto;
-}
-
-.overflow-x-hidden {
-  overflow-x: hidden;
 }
 
 .whitespace-normal {
@@ -1836,6 +1837,11 @@ video {
   background-color: rgb(249 168 37 / var(--tw-bg-opacity));
 }
 
+.bg-yellow-700 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(251 192 45 / var(--tw-bg-opacity));
+}
+
 .bg-opacity-60 {
   --tw-bg-opacity: 0.6;
 }
@@ -2199,6 +2205,11 @@ video {
 .py-8 {
   padding-top: 2rem;
   padding-bottom: 2rem;
+}
+
+.px-2 {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }
 
 .\!pr-7 {
@@ -5543,23 +5554,12 @@ video {
 }
 
 @media (min-width: 720px) {
-  .md\:inset-0 {
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
-  }
-
   .md\:mt-0 {
     margin-top: 0px;
   }
 
   .md\:h-auto {
     height: auto;
-  }
-
-  .md\:h-full {
-    height: 100%;
   }
 
   .md\:h-screen {
@@ -5582,6 +5582,11 @@ video {
   .lg\:py-0 {
     padding-top: 0px;
     padding-bottom: 0px;
+  }
+
+  .lg\:px-60 {
+    padding-left: 15rem;
+    padding-right: 15rem;
   }
 
   .lg\:pl-0 {

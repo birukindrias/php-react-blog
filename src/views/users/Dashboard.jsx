@@ -1,14 +1,12 @@
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Button } from "@material-tailwind/react";
 import PostsItem from "../../components/items/PostsItem.jsx";
 import { Input } from "@material-tailwind/react";
 import { Textarea } from "@material-tailwind/react";
-import UploadComponent from "../../components/items/i.jsx";
 export const Dashboard = () => {
-  const user = useSelector((state) => state.userDataSlice.userData.user);
+  const user = useSelector((state) => state.userDataSlice.userData.user) ?? false;
   const token  = useSelector((state) => state.userDataSlice.userData.token);
   const [selectedFile, setSelectedFile] = useState(null);
   const [update, setupdate] = useState(false);
@@ -24,7 +22,7 @@ export const Dashboard = () => {
     setSelectedFile(event.target.files[0]);
   };
 
-  const handleChange = (event) => {p
+  const handleChange = (event) => {
     console.log(postValues);
 
     setpostValues({
@@ -72,7 +70,7 @@ export const Dashboard = () => {
   return (
     <>
       <div className=" ">
-        <div className="w-ful px-60  flex flex-col align-bottom justify-between h-60">
+        <div className="w-full px-2 py-2 lg:px-60  flex flex-col align-bottom gap-2 justify-between h-fit">
           <Textarea
             label="post"
             name="post"

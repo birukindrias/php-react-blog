@@ -21,10 +21,12 @@ const userSlice = createSlice({
             localStorage.setItem("token", token);
             console.log(token);
 
+
             return state;
         },
         logout(state) {
             state.userData = [];
+            state.token = false;
             localStorage.removeItem("token");
             return state;
         },

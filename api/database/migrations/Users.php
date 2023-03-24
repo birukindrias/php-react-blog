@@ -8,10 +8,11 @@ class Users
     {
         $SQL_QUERY = "CREATE TABLE IF NOT EXISTS users (
                   id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-                  firstname VARCHAR(50),
-                  lastname VARCHAR(50),
+                  username VARCHAR(50),
                   email VARCHAR(50),
                   password VARCHAR(50),
+                  img VARCHAR(250),
+                  bio VARCHAR(250),
                   remember_token VARCHAR(100) DEFAULT NULL
        )
        ENGINE = INNODB;";

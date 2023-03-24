@@ -4,6 +4,7 @@ namespace App\app\controller\api;
 
 use App\kernel\App;
 use App\app\modal\Post;
+use App\app\modal\Users;
 
 class PostController
 {
@@ -21,6 +22,37 @@ class PostController
         // var_dump(array_reverse($data));
         // var_dump($data);
         echo json_encode(['posts' => $data]);
+    }
+    public function userPosts()
+    {
+        $user = new Users();
+
+        $json = file_get_contents('php://input'); // Returns data from the request body
+        $decodedData = json_decode($json, true);
+        $foundedUser = $user->FindOne(['remember_token' => $decodedData['remember_token']]);
+
+        // var_dump($foundedUser);
+
+        $data =  $user->join(
+            'users',
+            'posts',
+            'id',
+            'user_id',
+            $foundedUser[0]['id']
+        );
+        if (empty($data)) {
+            echo json_encode(['posts' => 'null']);
+            return;
+        }
+        echo json_encode(['posts' => $data]);
+
+
+        // var_dump($data);
+        // exit;
+        // $posts = new Post();
+        // $data =  $posts->SelectAll();
+        // var_dump(array_reverse($data));
+        // var_dump($data);
     }
     public function img()
     {

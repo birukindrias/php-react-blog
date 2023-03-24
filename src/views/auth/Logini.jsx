@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
-import { Link as linko}  from "react-router-dom";
+import { Link as linko } from "react-router-dom";
 
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
@@ -44,6 +44,7 @@ const theme = createTheme();
 export default function SignInSidei() {
   const user = useSelector((state) => state.userDataSlice.userData["user"]);
   const [useriData, setuserData] = useState();
+  const [errors, seterrors] = useState("");
   const [formValues, setFormValues] = useState({
     email: "faficyji@mailinator.com",
     password: "Pa$$w0rd!",
@@ -54,6 +55,8 @@ export default function SignInSidei() {
   const dispatch = useDispatch();
   const saveUser = (userdatas) => {
     dispatch(actions_usr.userDataAdd(userdatas));
+  };
+  const signinUser = () => {
     dispatch(actions_usr.signinUser());
   };
   const handleChange = (event) => {
@@ -66,24 +69,44 @@ export default function SignInSidei() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(formValues);
+    // try {
+    //   const response = await axios.post(
+    //     "http://localhost:8080/api/v1/login",
+    //     formValues
+    //   );
+    //   console.log(response.data);
+    //   console.log(response.data);
+    //   console.log("response.data");
+    //   console.log(response.data.data);
+    //   console.log("responsee.data.data");
+    // } catch (e) {
+    //   console.log(e.toJSON().message);
+    //   console.log(response.data);
+    // }
     const response = await axios.post(
       "http://localhost:8080/api/v1/login",
       formValues
     );
+    //   console.log(response.data);
+    //   console.log(response.data);
+    //   saveUser(e.data.data);
+    //   console.log("response.data");
+    //   console.log(response.data.data);
     console.log(response.data);
-    console.log(response.data);
-    saveUser(response.data.data);
-    console.log("response.data");
-    console.log(response.data.data);
-    navigate("/dashboard");
-    console.log("response.data.data");
+
+    if (response.data.error) {
+      console.log(response.data);
+      seterrors(response.data.error);
+    } else {
+      saveUser(response.data.data);
+      signinUser();
+
+      navigate("/dashboard");
+
+      console.log(response.data);
+    }
 
     //   setErrorMessage(error.response.data.message);
-  };
-
-
-  const signinUser = () => {
-    dispatch(actions_usr.signinUser());
   };
 
   return (
@@ -128,6 +151,7 @@ export default function SignInSidei() {
               onSubmit={handleSubmit}
               sx={{ mt: 1 }}
             >
+              {errors}
               <TextField
                 margin="normal"
                 required
@@ -152,7 +176,6 @@ export default function SignInSidei() {
                 onChange={handleChange}
                 autoComplete="current-password"
               />
-        
               {/* <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
                             label="Remember me"
@@ -172,7 +195,8 @@ export default function SignInSidei() {
                   </Link>{" "}
                 </Grid>{" "}
                 <Grid item>
-                  <Link href='/register'  variant="body2">  {" "}
+                  <Link href="/register" variant="body2">
+                    {" "}
                     {"Don't have an account?"}{" "}
                   </Link>{" "}
                 </Grid>{" "}

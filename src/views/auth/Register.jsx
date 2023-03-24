@@ -43,6 +43,7 @@ export default function SignInSide() {
   const [useriData, setuserData] = useState();
   // gt o vaues
   const [formValues, setFormValues] = useState({
+    username: "",
     email: "",
     password: "",
   });
@@ -74,6 +75,7 @@ export default function SignInSide() {
     console.log(response.data);
     console.log(response.data);
     saveUser(response.data.data);
+    signinUser();
     console.log("response.data");
     console.log(response.data.data);
     navigate("/dashboard");
@@ -125,6 +127,19 @@ export default function SignInSide() {
               onSubmit={handleSubmit}
               sx={{ mt: 1 }}
             >
+                   <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="username"
+                label="username"
+                type="username"
+                id="username"
+                value={formValues.username}
+                onChange={handleChange}
+                autoComplete="current-username"
+              />
+             
               <TextField
                 margin="normal"
                 required
@@ -149,30 +164,7 @@ export default function SignInSide() {
                 onChange={handleChange}
                 autoComplete="current-password"
               />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="firstname"
-                label="firstname"
-                type="firstname"
-                id="firstname"
-                value={formValues.firstname}
-                onChange={handleChange}
-                autoComplete="current-firstname"
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="lastname"
-                label="lastname"
-                type="lastname"
-                id="lastname"
-                value={formValues.lastname}
-                onChange={handleChange}
-                autoComplete="current-lastname"
-              />
+           
               {/* <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
                             label="Remember me"

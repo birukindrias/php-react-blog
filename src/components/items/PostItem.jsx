@@ -17,9 +17,17 @@ import {
     TvIcon,
     FireIcon,
   } from "@heroicons/react/24/solid";
+import { useSelector } from "react-redux";
    
   export default function PostItem({post,index,img,title}) {
-    let imgi = `http://localhost:8080/storage/post_images/${img}`;
+    // const userValue =
+    // useSelector((state) => state.userDataSlice.userData["user"]) ?? false;
+  
+    let imagevar = img ? img : "post.png";
+    let imgi = `http://localhost:8080/storage/post_images/${imagevar}`;
+    // let postini = `http://localhost:8080/s/torage/post_images/post.png`;
+  
+    // let / = `http://localhost:8080/storage/post_images/${img}`;
     // console.log(imgi)
     return (
       <Card  key={index} className="w-full max-w-[26rem] shadow-lg">
