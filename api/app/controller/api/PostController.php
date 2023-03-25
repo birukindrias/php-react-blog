@@ -40,11 +40,13 @@ class PostController
             'user_id',
             $foundedUser[0]['id']
         );
-        if (empty($data)) {
-            echo json_encode(['posts' => null]);
+        // var_dump($data);
+        if (!empty($data)) {
+            echo json_encode(['posts' => $data]);
             return;
+        } else {
+            echo json_encode(['posts' => $data]);
         }
-        echo json_encode(['posts' => $data]);
 
 
         // var_dump($data);

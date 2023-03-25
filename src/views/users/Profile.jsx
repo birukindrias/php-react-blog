@@ -1,3 +1,4 @@
+
 import { Input } from "@material-tailwind/react";
 import { Textarea } from "@material-tailwind/react";
 import { Button } from "@material-tailwind/react";
@@ -24,6 +25,9 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 const Profile = () => {
   const dispatch = useDispatch();
+  const update  = useSelector((state) => state.userDataSlice.update);
+  const userpostsdata =
+    useSelector((state) => state.userDataSlice.userpostsdata) ?? false;
 
   const user =
     useSelector((state) => state.userDataSlice.userData["user"]) ?? false;
@@ -44,11 +48,14 @@ const Profile = () => {
   const logout = () => {
     dispatch(actions_usr.logout());
     navigate("/login");
-    navigate("/login");
   };
   const saveUser = (userdatas) => {
     dispatch(actions_usr.userDataAdd(userdatas));
   };
+  const setpostsdata = (data) => {
+    dispatch (actions_usr.setpostsdata(data));
+  };
+
   const signinUser = () => {
     dispatch(actions_usr.signinUser());
   };
@@ -76,12 +83,15 @@ const Profile = () => {
     let res = await axios.post("http://localhost:8080/api/v1/userposts", {
       remember_token: token,
     });
-    setPosts(res.data.posts);
-    console.log(userposts);
+    // setPosts(res.data.posts);
+    setpostsdata(res.data.posts);
+    
+
+    console.log(res.data.posts);
   };
 
   console.log("userposts");
-  console.log(userposts);
+//   console.log(userposts);
 
   useEffect(() => {
     getPosts();
@@ -379,8 +389,8 @@ const Profile = () => {
 
         <div className="flex justify-center mt-5 w-full ">
           <div className="flex flex-wrap absolute items-center justify-center">
-            {userposts ? (
-              userposts.map((post, index) => (
+            {userpostsdata ? (
+              userpostsdata.map((post, index) => (
                 // Only do this if items have no stable IDs
                 <Grid item xs={2} md={2} className="flex flex-wrap">
                   <PostItem

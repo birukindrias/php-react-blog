@@ -8,12 +8,14 @@ import { Input, Button } from "@material-tailwind/react";
 
 import { Textarea } from "@material-tailwind/react";
 const TopNavbar = () => {
-  const [model, setmodel] = useState(false);
-  const [update, setupdate] = useState(false);
-
   const dispatch = useDispatch();
-  let user = useSelector((state) => state.userDataSlice.token);
   const navigate = useNavigate();
+  const [model, setmodel] = useState(false);
+  //   const [update, setupdate] = useState(false);
+  const [searchitem, setsearchitem] = useState("");
+  const setpostsdata = (data) => {
+    dispatch(actions_usr.setpostsdata(data));
+  };
   const saveUser = (userdata) => {
     dispatch(actions_usr.userDataAdd(userdata));
   };
@@ -23,25 +25,39 @@ const TopNavbar = () => {
   const searchResult = (users) => {
     dispatch(actions_usr.searchResult(users));
   };
-  const userValue =
+
+  const getUserFromBackend = async () => {
+    const response = await axios.post("http://localhost:8080/api/v1/getuser", {
+      token: user,
+    });
+    
+    saveUser(response.data.data);
+  };
+  useEffect(() => {
+    getUserFromBackend();
+  }, []);
+  const user =
     useSelector((state) => state.userDataSlice.userData["user"]) ?? false;
-  const [searchitem, setsearchitem] = useState("");
-  let token = useSelector((state) => state.userDataSlice.token);
-  let imagevar = userValue.img ? userValue.img : "def.jpeg";
+
+  let imagevar = user.img ? user.img : "def.jpeg";
   let imgi = `http://localhost:8080/storage/profile/${imagevar}`;
   let postini = `http://localhost:8080/storage/files/blog.png`;
+
+  const logout = () => {
+    dispatch(actions_usr.logout());
+    navigate("/login");
+  };
 
   const [postValues, setpostValues] = useState({
     user_id: user.id,
     post: "",
     img: {},
   });
+
   //   erorr
   // handle form insertion
 
   const handleChangepost = (event) => {
-    console.log(postValues);
-
     setpostValues({
       ...postValues,
       [event.target.name]: event.target.value,
@@ -57,8 +73,6 @@ const TopNavbar = () => {
   };
 
   const createPost = async () => {
-    setupdate(false);
-
     const response = await axios.post(
       "http://localhost:8080/api/v1/createpost",
       postValues,
@@ -68,39 +82,28 @@ const TopNavbar = () => {
         },
       }
     );
-    setTheUpdate(true);
-    console.log(response.data);
-    setmodel(!model);
     if (response.data) {
+      let getPosts = async () => {
+        let res = await axios.get("http://localhost:8080/api/v1/posts");
+        setpostsdata(res.data.posts);
+      };
+      getPosts();
+
       setTheUpdate(true);
       setTheUpdate(false);
+      setTheUpdate(true);
     }
+    setmodel(!model);
   };
-  //   let imgi = `http://localhost:8080/storage/profile/${userValue.img}`;
+  //   let imgi = `http://localhost:8080/storage/profile/${user.img}`;
 
-  const getUserFromBackend = async () => {
-    const response = await axios.post("http://localhost:8080/api/v1/getuser", {
-      token: user,
-    });
-
-    console.log("the data");
-    console.log(response.data.data);
-    saveUser(response.data.data);
-  };
   const openModel = (state) => {
     console.log(model);
     setmodel(!model);
-    console.log(model);
-
-    // console.log('asjdfkajfkssdhsdkfssffsdfasdgsdgggdfngdjgjdgjdkgjdjfsjfjssdjdhhjhhhhh')
   };
-  console.log(searchitem);
 
   const handleChange = (event) => {
-    console.log("   asdfklsa");
-    console.log(searchitem);
     setsearchitem(event.target.value);
-    console.log(searchitem);
   };
   const Search = async (e) => {
     if (searchitem != "") {
@@ -109,32 +112,12 @@ const TopNavbar = () => {
       const response = await axios.post("http://localhost:8080/api/v1/search", {
         searchuser: searchitem,
       });
-
-      console.log("the data");
-      console.log(response.data.data.users);
       searchResult(response.data.data.users);
       setsearchitem("");
       navigate("/users");
     }
   };
-  //   const pageAccessedByReload =
-  //     (window.performance.navigation &&
-  //       window.performance.navigation.type === 1) ||
-  //     window.performance
-  //       .getEntriesByType("navigation")
-  //       .map((nav) => nav.type)
-  //       .includes("reload");
 
-  //   alert(pageAccessedByReload);
-  useEffect(() => {
-    getUserFromBackend();
-  }, []);
-  const logout = () => {
-    dispatch(actions_usr.logout());
-    navigate("/login");
-    navigate("/login");
-    console.log(token);
-  };
   return (
     <div>
       <div className="flex-1 flex flex-col">
@@ -179,12 +162,20 @@ const TopNavbar = () => {
                 </Button>
               </form>
             </div>
-            <IconButton variant="outlined" onClick={openModel}>
-              <i className="fas fa-circle-plus" onClick={openModel} />
-            </IconButton>
+
             {/* <i class="fa-solid fa-circle-plus text-orange-700 w-20 h-20" ></i> */}
             {user ? (
               <>
+                <IconButton
+                  variant="outlined"
+                  className="px-3 ml-4 text-orange-600"
+                  onClick={openModel}
+                >
+                  <i
+                    className=" fas fa-circle-plus text-orange-600"
+                    onClick={openModel}
+                  />
+                </IconButton>
                 {/* <li>
                   <h1 className="pl-8 px-3 lg:pl-0 text-gray-700">
                     <Link to="/dashboard">Home</Link>
@@ -206,7 +197,7 @@ const TopNavbar = () => {
               </>
             ) : (
               <>
-                <li>
+                {/* <li>
                   <h1 className="pl-8  px-3 lg:pl-0 text-gray-700">
                     <Link to="/">Home</Link>
                   </h1>
@@ -215,7 +206,7 @@ const TopNavbar = () => {
                   <h1 className="pl-8 px-3 lg:pl-0 text-gray-700">
                     <Link to="login">login</Link>
                   </h1>
-                </li>
+                </li> */}
               </>
             )}
           </ul>
@@ -287,7 +278,7 @@ const TopNavbar = () => {
               </button>
             </div>
             <div className="p-6 space-y-6 ">
-              <div className="w-full px-2 py-2 lg:px-60  flex flex-col align-bottom gap-2 justify-between h-fit">
+              <div className="w-full px-2 py-2  flex flex-col align-bottom gap-2 justify-between h-fit">
                 <Textarea
                   label="post"
                   name="post"
@@ -303,7 +294,7 @@ const TopNavbar = () => {
                 />
                 <Input
                   label="Image"
-                  icon={<i className="fas fa-heart" />}
+                  icon={<i className="fas fa-image" />}
                   name="img"
                   type="file"
                   onChange={handleChangepost}

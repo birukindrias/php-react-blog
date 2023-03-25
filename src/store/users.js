@@ -5,8 +5,9 @@ const userSlice = createSlice({
     initialState: {
         userData: [localStorage.getItem("user")],
         users: [],
-        update: 'false',
-        token: localStorage.getItem("token"),
+        postsdata: [],
+        pstupdate: false,
+        token: localStorage.getItem("token") ?? null,
     },
     reducers: {
         userDataAdd(state, action) {
@@ -19,6 +20,10 @@ const userSlice = createSlice({
         },
         searchResult(state, action) {
             state.users = action.payload;
+            return
+        },
+        setpostsdata(state, action) {
+            state.postsdata = action.payload;
             return
         },
         signinUser(state) {

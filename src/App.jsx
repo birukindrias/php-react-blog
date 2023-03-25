@@ -8,7 +8,7 @@ import HomePage from "./views/users/HomePage";
 import { Dashboard } from "./views/users/Dashboard.jsx";
 import SignInSidei from "./views/auth/Logini.jsx";
 import Ck from "./components/items/Ck";
-import { default as TopNavbar } from "./components/items/TopNavbar.jsx";
+import TopNavbar from "./components/items/TopNavbar.jsx";
 
 import { Profile } from "./views/users/Profile";
 import Users from "./components/items/Users";
@@ -27,7 +27,6 @@ function App() {
             <>
               <Route path="/" element={<Dashboard />} />
               <Route path="/dashboard" element={<Dashboard />} />
-
               <Route path="/profile" element={<Profile />} />
               <Route path="/users" element={<Users />} />
               <Route path="/*" element={<Ck />} />

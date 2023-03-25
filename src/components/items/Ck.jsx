@@ -11,6 +11,10 @@ const Ck = () => {
     if (token) {
       navigate("/");
     }
+    // else{{
+    //   navigate("/login");
+
+    // }}
 //   }, []);
 };
 export default Ck;
