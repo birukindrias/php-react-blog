@@ -37,6 +37,23 @@ class UserController
         ], 'token' => $token]]);
         // echo json_encode(['user'=>$userData], true);
     }
+    public function getOtherUser()
+    {
+        $json = file_get_contents('php://input'); // Returns data from the request body
+        $token = json_decode($json, true);
+
+        $user = new Users();
+        $foundedUser = $user->FindOne(['id' => $token['id']]);
+        // var_dump($userData);
+        // var_dump($token);
+        return  json_encode(['data' => ['user' =>
+        [
+            'id' =>  $foundedUser[0]['id'],
+            'username' => $foundedUser[0]['username'],
+            'bio' => $foundedUser[0]['bio'], 'password' => $foundedUser[0]['password'], 'email' => $foundedUser[0]['email'], 'img' => $foundedUser[0]['img']
+        ], 'token' => $token]]);
+        // echo json_encode(['user'=>$userData], true);
+    }
     public function search()
     {
         $json = file_get_contents('php://input'); // Returns data from the request body

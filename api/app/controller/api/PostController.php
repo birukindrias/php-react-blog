@@ -45,7 +45,7 @@ class PostController
             echo json_encode(['posts' => $data]);
             return;
         } else {
-            echo json_encode(['posts' => $data]);
+            echo json_encode(['posts' => false]);
         }
 
 

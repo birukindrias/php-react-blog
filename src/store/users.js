@@ -5,8 +5,10 @@ const userSlice = createSlice({
     initialState: {
         userData: [localStorage.getItem("user")],
         users: [],
-        postsdata: [],
-        pstupdate: false,
+        ouser: [],
+        userPost: [],
+        posts: [],
+        update: 'false',
         token: localStorage.getItem("token") ?? null,
     },
     reducers: {
@@ -22,8 +24,16 @@ const userSlice = createSlice({
             state.users = action.payload;
             return
         },
-        setpostsdata(state, action) {
-            state.postsdata = action.payload;
+        setUserPost(state, action) {
+            state.userPost = action.payload;
+            return
+        },
+        setOthorUser(state, action) {
+            state.ouser = action.payload;
+            return
+        },
+        setPosts(state, action) {
+            state.posts = action.payload;
             return
         },
         signinUser(state) {

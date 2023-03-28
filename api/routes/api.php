@@ -7,6 +7,7 @@ use App\app\controller\api\UserController;
 $kernel::$kernel->router->post('/api/v1/createUser', [UserController::class, 'create']);
 $kernel::$kernel->router->post('/api/v1/login', [UserController::class, 'login']);
 $kernel::$kernel->router->post('/api/v1/update', [UserController::class, 'update']);
+$kernel::$kernel->router->post('/api/v1/getotheruser', [UserController::class, 'getOtherUser']);
 $kernel::$kernel->router->post('/api/v1/getuser', [UserController::class, 'getUser']);
 $kernel::$kernel->router->post('/api/v1/createpost', [PostController::class, 'create']);
 $kernel::$kernel->router->post('/api/v1/img', [PostController::class, 'img']);

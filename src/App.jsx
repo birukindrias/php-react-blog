@@ -6,7 +6,7 @@ import { Routes, Route } from "react-router-dom";
 import Register from "./views/auth/Register.jsx";
 import HomePage from "./views/users/HomePage";
 import { Dashboard } from "./views/users/Dashboard.jsx";
-import SignInSidei from "./views/auth/Logini.jsx";
+import Login from "./views/auth/Login.jsx";
 import Ck from "./components/items/Ck";
 import TopNavbar from "./components/items/TopNavbar.jsx";
 
@@ -15,7 +15,6 @@ import Users from "./components/items/Users";
 
 function App() {
   let token = useSelector((state) => state.userDataSlice.token);
-  console.log(token);
 
   return (
     <div className="App">
@@ -35,15 +34,18 @@ function App() {
           ) : (
             <>
               <Route path="/" element={<HomePage />} />
+              <Route path="/dashboard" element={<HomePage />} />
+              <Route path="/userprofile" element={<Profile />} />
 
               <Route
                 path="/register"
                 element={<Register onLogin={() => setIsLoggedIn(true)} />}
               />
+              <Route path="/users" element={<Users />} />
 
               <Route
                 path="/login"
-                element={<SignInSidei onLogin={() => setIsLoggedIn(true)} />}
+                element={<Login onLogin={() => setIsLoggedIn(true)} />}
               />
               <Route path="/*" element={<Ck />} />
             </>

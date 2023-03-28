@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { actions_usr } from "../../store/users";
 import { IconButton } from "@material-tailwind/react";
 import { Input, Button } from "@material-tailwind/react";
@@ -11,41 +11,35 @@ const TopNavbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [model, setmodel] = useState(false);
-  //   const [update, setupdate] = useState(false);
+  const [posts, setposts] = useState([]);
   const [searchitem, setsearchitem] = useState("");
+  const user =
+    useSelector((state) => state.userDataSlice.userData["user"]) ?? false;
+  console.log(user.id);
+  console.log(user);
+  const token = useSelector((state) => state.userDataSlice.token) ?? false;
+  console.log('token');
+  console.log(token);
+
+  const update = useSelector((state) => state.userDataSlice.update) ?? false;
+
   const setpostsdata = (data) => {
     dispatch(actions_usr.setpostsdata(data));
+  };
+  const setUserPost = (data) => {
+    dispatch(actions_usr.setUserPost(data));
   };
   const saveUser = (userdata) => {
     dispatch(actions_usr.userDataAdd(userdata));
   };
-  const setTheUpdate = (userdata) => {
-    dispatch(actions_usr.setTheUpdate());
+  const setTheUpdate = (update_val) => {
+    dispatch(actions_usr.setTheUpdate(update_val));
+  };
+  const setPosts = (posts) => {
+    dispatch(actions_usr.setPosts(posts));
   };
   const searchResult = (users) => {
     dispatch(actions_usr.searchResult(users));
-  };
-
-  const getUserFromBackend = async () => {
-    const response = await axios.post("http://localhost:8080/api/v1/getuser", {
-      token: user,
-    });
-    
-    saveUser(response.data.data);
-  };
-  useEffect(() => {
-    getUserFromBackend();
-  }, []);
-  const user =
-    useSelector((state) => state.userDataSlice.userData["user"]) ?? false;
-
-  let imagevar = user.img ? user.img : "def.jpeg";
-  let imgi = `http://localhost:8080/storage/profile/${imagevar}`;
-  let postini = `http://localhost:8080/storage/files/blog.png`;
-
-  const logout = () => {
-    dispatch(actions_usr.logout());
-    navigate("/login");
   };
 
   const [postValues, setpostValues] = useState({
@@ -53,6 +47,40 @@ const TopNavbar = () => {
     post: "",
     img: {},
   });
+  const getUserFromBackend = async () => {
+    const response = await axios.post("http://localhost:8080/api/v1/getuser", {
+      token: token,
+    });
+    saveUser(response.data.data);
+  };
+
+  let getPosts = async () => {
+    let res = await axios.get("http://localhost:8080/api/v1/posts");
+    setPosts(res.data.posts);
+    let userPosts = await axios.post("http://localhost:8080/api/v1/userposts", {
+      remember_token: token,
+    });
+    console.log("updated posts userPosts.data.posts");
+    setUserPost(userPosts.data.posts);
+  };
+  let getboth = async () => {
+    if (getUserFromBackend()) {
+      await getPosts();
+    }
+  };
+  useEffect(() => {
+    getboth();
+  }, [update]);
+  let image = `http://localhost:8080/storage/profile/${
+    user.img ? user.img : "def.jpeg"
+  }`;
+
+  let postini = `http://localhost:8080/storage/files/blog.png`;
+
+  const logout = () => {
+    dispatch(actions_usr.logout());
+    navigate("/login");
+  };
 
   //   erorr
   // handle form insertion
@@ -83,10 +111,6 @@ const TopNavbar = () => {
       }
     );
     if (response.data) {
-      let getPosts = async () => {
-        let res = await axios.get("http://localhost:8080/api/v1/posts");
-        setpostsdata(res.data.posts);
-      };
       getPosts();
 
       setTheUpdate(true);
@@ -113,6 +137,7 @@ const TopNavbar = () => {
         searchuser: searchitem,
       });
       searchResult(response.data.data.users);
+      console.log(response.data.data.users);
       setsearchitem("");
       navigate("/users");
     }
@@ -154,7 +179,7 @@ const TopNavbar = () => {
                 <Button
                   size="sm"
                   // color={email ? "blue" : "blue-gray"}
-                  //   disabled={!searchitem}
+                  disabled={!searchitem}
                   onClick={Search}
                   className="!absolute right-1 top-1 rounded"
                 >
@@ -164,7 +189,7 @@ const TopNavbar = () => {
             </div>
 
             {/* <i class="fa-solid fa-circle-plus text-orange-700 w-20 h-20" ></i> */}
-            {user ? (
+            {token ? (
               <>
                 <IconButton
                   variant="outlined"
@@ -212,7 +237,7 @@ const TopNavbar = () => {
           </ul>
 
           <ul className="flex items-center">
-            {user ? (
+            {token ? (
               <>
                 {" "}
                 <li className="pr-6">
@@ -232,13 +257,19 @@ const TopNavbar = () => {
                   </svg>
                 </li>
                 <li className="h-10 w-10">
-                  <Link to="/profile" state={{ some: "useoasjfsd" }}>
+                  <Link to="/profile" state={{ id: user.id }}>
                     {" "}
-                    <img
-                      className="h-full w-full rounded-full mx-auto"
-                      src={imgi}
-                      alt="pic"
-                    />
+                    <div
+                      className="w-10 h-10 bg-cover bg-center  bg-no-repeat rounded-full"
+                      img={image}
+                      Style={`background-image: url(${image})`}
+                    >
+                      {/* <img
+              className="w-16 h-16 bg-auto bg-center bg-no-repeat rounded-full"
+              src={image}
+              alt=""
+            /> */}
+                    </div>
                   </Link>
                 </li>
               </>
@@ -253,7 +284,7 @@ const TopNavbar = () => {
           <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
             <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                Edit Profile
+                New Post{" "}
               </h3>
               <button
                 onClick={openModel}

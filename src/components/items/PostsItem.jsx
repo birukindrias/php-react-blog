@@ -18,52 +18,24 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function PostsItem() {
-  const [posts, setPosts] = useState([]);
+  const posts = useSelector((state) => state.userDataSlice.posts) ?? false;
 
-  const update = useSelector((state) => state.userDataSlice.pstupdate);
-  //   const postsdata  = useSelector((state) => state.userDataSlice.postsdata);
-  const userpostsdata =
-    useSelector((state) => state.userDataSlice.userpostsdata) ?? false;
-  const dispatch = useDispatch();
-
-  console.log(update);
-  const setpostsdata = (data) => {
-    dispatch(actions_usr.setpostsdata(data));
-  };
-  console.log("update");
-  console.log(update);
-  let getPosts = async () => {
-    let res = await axios.get("http://localhost:8080/api/v1/posts");
-    setPosts(res.data.posts);
-    setpostsdata(res.data.posts);
-  };
-
-  useEffect(() => {
-    console.log("update");
-    console.log(update);
-    getPosts();
-  }, []);
-  //   const postsList = posts.map((post, index) => (
-  //     // Only do this if items have no stabl e IDs
-  //     <Grid item xs={6} md={4}>
-  //       <PostItem post={post.post} index={index} />
-  //     </Grid>
-  //   ));
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2}>
-        {userpostsdata &&
-          userpostsdata.map((post, index) => (
-            // Only do this if items have no stable IDs
-            <Grid item xs={6} md={4}>
-              <PostItem
-                post={post.post}
-                title={post.title}
-                index={index}
-                img={post.img}
-              />
-            </Grid>
-          ))}
+        {posts
+          ? posts.map((post, index) => (
+              // Only do this if items have no stable IDs
+              <Grid item xs={6} md={4}>
+                <PostItem
+                  post={post.post}
+                  title={post.title}
+                  index={index}
+                  img={post.img}
+                />
+              </Grid>
+            ))
+          : "Loading..."}
       </Grid>
     </Box>
   );

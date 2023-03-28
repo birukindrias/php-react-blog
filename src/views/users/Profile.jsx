@@ -1,9 +1,7 @@
-
 import { Input } from "@material-tailwind/react";
 import { Textarea } from "@material-tailwind/react";
 import { Button } from "@material-tailwind/react";
 import axios from "axios";
-
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -24,19 +22,36 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 const Profile = () => {
+  //hooks
+  const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
-  const update  = useSelector((state) => state.userDataSlice.update);
-  const userpostsdata =
-    useSelector((state) => state.userDataSlice.userpostsdata) ?? false;
 
+  //dispatchs
+  const logout = () => {
+    dispatch(actions_usr.logout());
+    navigate("/login");
+  };
+  const saveUser = (userdatas) => {
+    dispatch(actions_usr.userDataAdd(userdatas));
+  };
+
+  const signinUser = () => {
+    dispatch(actions_usr.signinUser());
+  };
+  const saveOtherUser = (ouser) => {
+    dispatch(actions_usr.setOthorUser(ouser));
+  };
+  // data
+  const update = useSelector((state) => state.userDataSlice.update);
+  const userPost =
+    useSelector((state) => state.userDataSlice.userPost) ?? false;
   const user =
     useSelector((state) => state.userDataSlice.userData["user"]) ?? false;
   const token = useSelector((state) => state.userDataSlice.token) ?? false;
-//   let { state } = useLocation();
-//   console.log(user);
-//   console.log('state');
-//   console.log(state.some);
+  // model
   const [model, setmodel] = useState(false);
+  // profile update
   const [formValues, setFormValues] = useState({
     remember_token: token,
     email: user.email,
@@ -45,23 +60,31 @@ const Profile = () => {
     bio: user.bio,
     img: {},
   });
-  const logout = () => {
-    dispatch(actions_usr.logout());
-    navigate("/login");
-  };
-  const saveUser = (userdatas) => {
-    dispatch(actions_usr.userDataAdd(userdatas));
-  };
-  const setpostsdata = (data) => {
-    dispatch (actions_usr.setpostsdata(data));
-  };
 
-  const signinUser = () => {
-    dispatch(actions_usr.signinUser());
+  const getUserDAta = async () => {
+    const id = location.state.id;
+    if (id != user.id) {
+      const response = await axios.post(
+        "http://localhost:8080/api/v1/getotheruser",
+        {
+          id: id,
+        }
+      );
+      saveOtherUser(response.data.data);
+    } else {
+      const response = await axios.post(
+        "http://localhost:8080/api/v1/getuser",
+        {
+          token: token,
+        }
+      );
+      saveUser(response.data.data);
+    }
   };
-  const [userposts, setPosts] = useState(null);
-
-  // handle form insertion
+  useEffect(() => {
+    getUserDAta()
+  }, []);
+  // ? handle profile update form insertion
   const handleChange = (event) => {
     console.log("   asdfklsa");
 
@@ -78,24 +101,14 @@ const Profile = () => {
     console.log("   asdfklsa");
     console.log(formValues);
   };
-  const navigate = useNavigate();
-  let getPosts = async () => {
-    let res = await axios.post("http://localhost:8080/api/v1/userposts", {
-      remember_token: token,
-    });
-    // setPosts(res.data.posts);
-    setpostsdata(res.data.posts);
-    
+  //   let getPosts = async () => {
 
-    console.log(res.data.posts);
-  };
+  //     console.log(res.data.posts);
+  //   };
 
-  console.log("userposts");
-//   console.log(userposts);
-
-  useEffect(() => {
-    getPosts();
-  }, []);
+  //   useEffect(() => {
+  //     getPosts();
+  //   }, []);
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(formValues);
@@ -109,59 +122,44 @@ const Profile = () => {
       }
     );
     saveUser(response.data.data);
-
-    console.log("response.data");
     signinUser();
-    console.log(response.data.data);
-    console.log("response.data.data");
     setmodel(!model);
-
-    //   setErrorMessage(error.response.data.message);
   };
   const openModel = (state) => {
-    console.log(model);
     setmodel(!model);
-    console.log(model);
-
-    // console.log('asjdfkajfkssdhsdkfssffsdfasdgsdgggdfngdjgjdgjdkgjdjfsjfjssdjdhhjhhhhh')
   };
-  const userValue =
-    useSelector((state) => state.userDataSlice.userData["user"]) ?? false;
 
-  let imagevar = user.img ? userValue.img : "def.jpeg";
-  let imgi = `http://localhost:8080/storage/profile/${imagevar}`;
-
-  //   let imgi = `http://localhost:8080/storage/profile/${user.img}`;
-  let username = user.username;
-  let bio = user.bio;
-  let image = `background-image: url(${imgi})`;
-  console.log(image);
+  // console.log(data);
+  //   let image_Name = user.img ? user.img : "def.jpeg";
+  let image = `http://localhost:8080/storage/profile/${
+    user.img ? user.img : "def.jpeg"
+  }`;
 
   return (
     <>
       <div className="relative  my-3">
         {/* <div className="flex justify-between items-center text-sm">
             <button>
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path stroke-linecap="round" strokeLinejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
                 </svg>
             </button>
             <a href="#" className="flex gap-1 items-center">
                 <span className="font-bold">Geeky Gamer</span>
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path stroke-linecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                 </svg>
             </a>
             <div className="flex gap-2">
                 <button>
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                        <path stroke-linecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                     </svg>
                 </button>
                 <button>
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                        <path stroke-linecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
                 </button>
             </div>
@@ -277,16 +275,17 @@ const Profile = () => {
 
         <div className="flex flex-col justify-center items-center my-3">
           <div
-            className="w-16 h-16 bg-cover bg-center bg-no-repeat rounded-full"
+            className="w-16 h-16 bg-cover bg-center  bg-no-repeat rounded-full"
             img={image}
+            Style={`background-image: url(${image})`}
           >
-            <img
-              className="w-16 h-16 bg-cover bg-center bg-no-repeat rounded-full"
-              src={imgi}
+            {/* <img
+              className="w-16 h-16 bg-auto bg-center bg-no-repeat rounded-full"
+              src={image}
               alt=""
-            />
+            /> */}
           </div>
-          <span className="my-3">@{username}</span>
+          <span className="my-3">@{user.username}</span>
           {/* 
             <div className="flex gap-10 text-sm">
                 <div className="flex flex-col items-center">
@@ -310,7 +309,7 @@ const Profile = () => {
             Edit profile
           </button>
 
-          <p className="mb-3">{bio}</p>
+          <p className="mb-3">{user.bio}</p>
         </div>
 
         <div className="max-w-2xl mx-auto grid grid-cols-4">
@@ -325,7 +324,7 @@ const Profile = () => {
             >
               <path
                 strokeLinecap="round"
-                stroke-linejoin="round"
+                strokeLinejoin="round"
                 d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
               />
             </svg>
@@ -338,11 +337,11 @@ const Profile = () => {
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              stroke-width="2"
+              strokeWidth="2"
             >
               <path
                 strokeLinecap="round"
-                stroke-linejoin="round"
+                strokeLinejoin="round"
                 d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
               />
             </svg>
@@ -354,11 +353,11 @@ const Profile = () => {
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              stroke-width="2"
+              strokeWidth="2"
             >
               <path
                 strokeLinecap="round"
-                stroke-linejoin="round"
+                strokeLinejoin="round"
                 d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
               />
             </svg>
@@ -375,12 +374,12 @@ const Profile = () => {
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              stroke-width="2"
+              strokeWidth="2"
             >
                
               <path
                 strokeLinecap="round"
-                stroke-linejoin="round"
+                strokeLinejoin="round"
                 d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
               />
             </svg> */}
@@ -389,8 +388,8 @@ const Profile = () => {
 
         <div className="flex justify-center mt-5 w-full ">
           <div className="flex flex-wrap absolute items-center justify-center">
-            {userpostsdata ? (
-              userpostsdata.map((post, index) => (
+            {userPost ? (
+              userPost.map((post, index) => (
                 // Only do this if items have no stable IDs
                 <Grid item xs={2} md={2} className="flex flex-wrap">
                   <PostItem
