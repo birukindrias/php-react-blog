@@ -16,6 +16,11 @@ const TopNavbar = () => {
   const user =
     useSelector((state) => state.userDataSlice.userData["user"]) ?? false;
   console.log(user.id);
+  let userId 
+  if (user) {
+    userId = user.id;
+    
+  }
   console.log(user);
   const token = useSelector((state) => state.userDataSlice.token) ?? false;
   console.log("token");
@@ -43,7 +48,7 @@ const TopNavbar = () => {
   };
 
   const [postValues, setpostValues] = useState({
-    user_id: user.id,
+    user_id: userId,
     post: "",
     img: {},
   });
@@ -58,11 +63,12 @@ const TopNavbar = () => {
     let res = await axios.get("http://localhost:8080/api/v1/posts");
     setPosts(res.data.posts);
     let userPosts = await axios.post("http://localhost:8080/api/v1/userposts", {
-      remember_token: token,
+      id:user.id,
     });
     console.log("updated posts userPosts.data.posts");
 
     setUserPost(userPosts.data.posts);
+    console.log(userPosts.data.posts)
   };
   let getboth = async () => {
     if (getUserFromBackend()) {

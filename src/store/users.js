@@ -14,9 +14,7 @@ const userSlice = createSlice({
     reducers: {
         userDataAdd(state, action) {
             state.userData = action.payload;
-            localStorage.setItem("user", {
-                user: action.payload
-            });
+            localStorage.setItem("user", action.payload);
 
             // state.userData = a;
         },
@@ -56,6 +54,7 @@ const userSlice = createSlice({
             state.userData = [];
             state.token = false;
             localStorage.removeItem("token");
+            localStorage.removeItem("user");
             return state;
         },
     },

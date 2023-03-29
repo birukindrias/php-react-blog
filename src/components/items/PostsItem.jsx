@@ -32,6 +32,7 @@ export default function PostsItem() {
                   title={post.title}
                   index={index}
                   img={post.img}
+                  user_id={post.id}
                 />
               </Grid>
             ))

@@ -7,7 +7,9 @@ class Likes
     {
         $SQL_QUERY = "CREATE TABLE IF NOT EXISTS  likes (
                   id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-                  liked VARCHAR(50)
+                  `litem` VARCHAR(50),
+                  `post_id` VARCHAR(50),
+                  `user_id` VARCHAR(50)
        )
        ENGINE = INNODB;";
         App::$kernel->db->pdo->exec($SQL_QUERY);

@@ -12,7 +12,11 @@ $kernel::$kernel->router->post('/api/v1/getuser', [UserController::class, 'getUs
 $kernel::$kernel->router->post('/api/v1/createpost', [PostController::class, 'create']);
 $kernel::$kernel->router->post('/api/v1/img', [PostController::class, 'img']);
 $kernel::$kernel->router->get('/api/v1/posts', [PostController::class, 'index']); 
+$kernel::$kernel->router->post('/api/v1/post', [PostController::class, 'uniquePost']); 
 $kernel::$kernel->router->post('/api/v1/userposts', [PostController::class, 'userPosts']); 
+$kernel::$kernel->router->post('/api/v1/like', [PostController::class, 'likePost']); 
+$kernel::$kernel->router->get('/api/v1/like', [PostController::class, 'likePost']); 
+$kernel::$kernel->router->post('/api/v1/removelike', [PostController::class, 'removelike']); 
 $kernel::$kernel->router->post('/api/v1/search', [UserController::class, 'search']); 
 // $kernel::$kernel->router->post('/api/v1/insert', [siteController::class, 'insertUser']);
 // $kernel::$kernel->router->post('/api/v1/insertPost', [siteController::class, 'insertPost']);

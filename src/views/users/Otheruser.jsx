@@ -26,36 +26,35 @@ const Otheruser = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
-
+  const [posts, setPosts] = useState([]);
   //dispatchs
 
   const saveOtherUser = (ouser) => {
     dispatch(actions_usr.setOthorUser(ouser));
   };
   // data
-  const userPost =
-    useSelector((state) => state.userDataSlice.userPost) ?? false;
-  const user =
-    useSelector((state) => state.userDataSlice.userData["user"]) ?? false;
+  const user = useSelector((state) => state.userDataSlice.ouser) ?? false;
 
   const getUserDAta = async () => {
     const id = location.state.id;
-    if (id != user.id) {
+    console.log(id);
+    if (id) {
       const response = await axios.post(
         "http://localhost:8080/api/v1/getotheruser",
         {
           id: id,
         }
       );
-      saveOtherUser(response.data.data);
-    } else {
-      const response = await axios.post(
-        "http://localhost:8080/api/v1/getuser",
+      console.log(response.data.data.user);
+      saveOtherUser(response.data.data.user);
+      const oposts = await axios.post(
+        "http://localhost:8080/api/v1/userposts",
         {
-          token: token,
+          id: id,
         }
       );
-      saveUser(response.data.data);
+      console.log(oposts.data.posts);
+      setPosts(oposts.data.posts);
     }
   };
   useEffect(() => {
@@ -151,8 +150,8 @@ const Otheruser = () => {
 
         <div className="flex justify-center mt-5 w-full ">
           <div className="flex flex-wrap absolute items-center justify-center">
-            {userPost ? (
-              userPost.map((post, index) => (
+            {posts ? (
+              posts.map((post, index) => (
                 // Only do this if items have no stable IDs
                 <Grid item xs={2} md={2} className="flex flex-wrap">
                   <PostItem
@@ -169,16 +168,6 @@ const Otheruser = () => {
             )}
             {/* {userposts && <div>no posts yet </div>} */}
           </div>
-          {/* {userposts &&
-          userposts.map((post, index) => (
-            // Only do this if items have no stable IDs
-              <PostItem
-                post={post.post}
-                title={post.title}
-                index={index}
-                img={post.img}
-              />
-          ))} */}
         </div>
       </div>
     </>

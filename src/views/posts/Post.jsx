@@ -1,92 +1,115 @@
-import React, { useEffect } from "react";
-import { makeStyles } from "@material-ui/styles";
 import {
-  Grid,
   Card,
-  CardActionArea,
-  CardContent,
-  CardMedia,
+  CardHeader,
+  CardBody,
+  CardFooter,
   Typography,
-} from "@material-ui/core";
+  Button,
+  Tooltip,
+  IconButton,
+} from "@material-tailwind/react";
+import {
+  BanknotesIcon,
+  StarIcon,
+  HeartIcon,
+  WifiIcon,
+  HomeIcon,
+  TvIcon,
+  FireIcon,
+} from "@heroicons/react/24/solid";
+import { useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 
-import { actions_post } from "../../store/posts";
+export default function Post() {
+  const location = useLocation();
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    padding: theme.spacing(2),
-  },
-  card: {
-    maxWidth: 345,
-  },
-  
-  media: {
-    height: 140,
-  },
-}));
+  const id = location.state.id;
+  const [posts, setPosts] = useState([]);
+  const getpost = async () => {
+    const id = location.state.id;
+    console.log(id);
 
-function Posts() {
-  const [allpost, setallpost] = useState([]);
-
-  const dispatch = useDispatch();
-  const getPosts = (posts) => {
-    dispatch(actions_post.postDataAdd(posts));
+    const oposts = await axios.post("http://localhost:8080/api/v1/post", {
+      id: id,
+    });
+    console.log("oposts.data.possssts");
+    console.log(oposts.data.posts[0]);
+    setPosts(oposts.data.posts[0]);
+    if (posts) {
+      console.log("posts");
+      console.log(posts.img);
+      console.log(post);
+      console.log("post");
+      
+  }
   };
-
   useEffect(() => {
-    let rees = axios
-      .get("http://localhost:8080/api/v1/posts")
-      .then((result) => {
-        console.log(result.data);
-        getPosts(result.data.posts);
-        console.log(result.data.posts);
-        setallpost(result.data.posts);
-
-        console.log("getallposts");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    console.log("sssssssssss");
-    console.log(rees);
-    console.log("asdjfiaidfa");
+    getpost();
   }, []);
-
-  const classes = useStyles();
+  let img = posts.img;
+  let title = posts.title;
+  let post = posts.post;
+  let user_id = posts.user_id;
+  let imagevar = img ? img : "post.png";
+  let imgi = `http://localhost:8080/storage/post_images/${imagevar}`;
 
   return (
-    <div className={classes.root}>
-      <Grid container spacing={2}>
-        {/* {allpost.map((e)=>{ 
-            return   <Grid item xs={12} sm={6} md={4}>
-          <Card className={classes.card}>
-            <CardActionArea>
-              <CardMedia
-                className={classes.media}
-                image="https://source.unsplash.com/random"
-                title="Blog post title"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
-                 {e.post}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  A brief summary of the blog post.
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        </Grid>
-        }) } */}
-
-        {/* Add more Grid items for more blog posts */}
-      </Grid>
-    </div>
+    <Card className="w-full max-w-[26rem] shadow-lg">
+      <Link to="/postitem">
+        <CardHeader floated={false} color="blue-gray">
+          <img src={imgi} alt="ui/ux review check" />
+          <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60 " />
+          <IconButton
+            size="sm"
+            color="red"
+            variant="text"
+            className="!absolute top-4 right-4 rounded-full"
+          >
+            <HeartIcon className="h-6 w-6" />
+          </IconButton>
+        </CardHeader>
+        <CardBody>
+          <div className="mb-3 flex items-center justify-between">
+            <Typography variant="h5" color="blue-gray" className="font-medium">
+              {title}
+            </Typography>
+            <Typography
+              color="blue-gray"
+              className="flex items-center gap-1.5 font-normal"
+            >
+              <StarIcon className="-mt-0.5 h-5 w-5 text-yellow-700" />
+              5.0
+            </Typography>
+          </div>
+          <Typography color="gray">{post}</Typography>
+          <div className="group w-full mt-8 inline-flex flex-wrap justify-between items-center gap-3">
+            <Tooltip content={`65" HDTV`}>
+              <span className="cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-blue-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70">
+                <TvIcon className="h-5 w-5" />
+              </span>
+            </Tooltip>
+            <div className="flex flex-row ">
+              <Tooltip content="Fire alert">
+                <span className="cursor-pointer rounded-full border border-blue-500/5 bg-red-500/5 p-3 text-red-500 transition-colors hover:border-red-500/10 hover:bg-red-500/10 hover:!opacity-100 group-hover:opacity-70">
+                  <FireIcon className="h-5 w-5" />
+                </span>
+              </Tooltip>
+              <Tooltip content="And +20 more">
+                <span className="cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-gray-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70">
+                  +20
+                </span>
+              </Tooltip>
+            </div>
+          </div>
+        </CardBody>
+      </Link>
+      {/* <CardFooter className="pt-3">
+            <Button size="lg" fullWidth={true}>
+              Reserve
+            </Button>
+          </CardFooter> */}
+    </Card>
   );
 }
-
-export { Posts };

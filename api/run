@@ -8,88 +8,83 @@ use App\kernel\Request;
 class  artisan
 {
 
-  public function __construct($argv)
-  {
-    $dir = __DIR__;
+    public function __construct($argv)
+    {
+        $dir = __DIR__;
 
-    $filename = $argv[1] ?? '';
-    $file = $filename ?? '';
-    $name =
-      $file ?? '';
-    if (
-      $argv[0] == 'run' and
-      key_exists(1,$argv)
-    ) {
-     if (in_array('--down',$argv)) {
-        $upd = 'down';
-        echo '------------rolling-----------';
-    require_once __DIR__ . "/kernel/migration/artisan_migrate.php";
-
-     }
-     if (in_array('--up',$argv)) {
-        $upd = 'up';
-        echo '------------migrating-----------';
-    require_once __DIR__ . "/kernel/migration/artisan_migrate.php";
-
-     }
-        foreach ($argv as $key) {
-            
-            // up();
-            echo $key;
-
-            if ($key == '--m' && $key == '--down'
-            ) {
-                echo $key;
-                $upd = 'up';
-                echo 'up';
-            require_once __DIR__ . "/kernel/migration/artisan_migrate.php";
-
-                  
-              if ($key == '--down' ) {
-                $upd = 'down';
-                echo 'donw';
-            require_once __DIR__ . "/kernel/migration/artisan_migrate.php";
-
-                  
-                }
-              if ($key =='up') {
-                $upd = 'up';
-                echo 'up';
-
-                require_once __DIR__ . "/kernel/migration/artisan_migrate.php";
-                  
-                }
-                echo $key;
-              echo $key;
-      
-            //   require_once __DIR__ . "/kernel/migration/artisan_migrate.php";
-              // shell_exec("php artisan_migrate.php");
-            }
-            if ($key == '--roll') {
-              if ($key == 'down' || $key == 'up') {
-                  $func =  $key ?? '';
-                  
-                }
-                echo 'roll';
-              echo $key;
-      
-            //   require_once __DIR__ . "/kernel/migration/artisan_migrate.php";
-      
-              // shell_exec("php artisan_migrate.php");
-            }
-    //   shell_exec("php -S localhost:8080 -t public");
-
-    // shell_exec("php artisan_migrate.php");
-    }
-  
-      if ($key == '-c') {
-        require_once __DIR__ . "/kernel/strings/controller/controller.php";
-        $controller =  fopen('app/controller/' . $file . '.php', 'wr', true);
+        $filename = $argv[1] ?? '';
+        $file = $filename ?? '';
+        $name =
+            $file ?? '';
         if (
-          fwrite($controller, $fileinfo)
-
+            $argv[0] == 'run' and
+            key_exists(1, $argv)
         ) {
-          echo "
+            if (in_array('--down', $argv)) {
+                $upd = 'down';
+                echo '------------rolling-----------';
+                require_once __DIR__ . "/kernel/migration/artisan_migrate.php";
+            }
+            if (in_array('--up', $argv)) {
+                $upd = 'up';
+                echo '------------migrating-----------';
+                require_once __DIR__ . "/kernel/migration/artisan_migrate.php";
+            }
+            foreach ($argv as $key) {
+
+                // up();
+                echo $key;
+
+                if (
+                    $key == '--m' && $key == '--down'
+                ) {
+                    echo $key;
+                    $upd = 'up';
+                    echo 'up';
+                    require_once __DIR__ . "/kernel/migration/artisan_migrate.php";
+
+
+                    if ($key == '--down') {
+                        $upd = 'down';
+                        echo 'donw';
+                        require_once __DIR__ . "/kernel/migration/artisan_migrate.php";
+                    }
+                    if ($key == 'up') {
+                        $upd = 'up';
+                        echo 'up';
+
+                        require_once __DIR__ . "/kernel/migration/artisan_migrate.php";
+                    }
+                    echo $key;
+                    echo $key;
+
+                    //   require_once __DIR__ . "/kernel/migration/artisan_migrate.php";
+                    // shell_exec("php artisan_migrate.php");
+                }
+                if ($key == '--roll') {
+                    if ($key == 'down' || $key == 'up') {
+                        $func =  $key ?? '';
+                    }
+                    echo 'roll';
+                    echo $key;
+
+                    //   require_once __DIR__ . "/kernel/migration/artisan_migrate.php";
+
+                    // shell_exec("php artisan_migrate.php");
+                }
+                //   shell_exec("php -S localhost:8080 -t public");
+
+                // shell_exec("php artisan_migrate.php");
+            }
+
+            if ($key == '-c') {
+                require_once __DIR__ . "/kernel/strings/controller/controller.php";
+                $controller =  fopen('app/controller/' . $file . '.php', 'wr', true);
+                if (
+                    fwrite($controller, $fileinfo)
+
+                ) {
+                    echo "
       ****************
       *********
       ****
@@ -99,32 +94,32 @@ class  artisan
       ****
       *********
       ****************\n" . PHP_EOL;
+                }
+            }
+            if ($key == 'del' and $key == '-d') {
+
+                $del = dirname(__DIR__) . "/mvc_by_me/controller/" . $file . ".php";
+                shell_exec("sudo rm $del");
+            }
+            if (in_array('m', $argv)) {
+                require_once __DIR__ . "/kernel/strings/controller/modal.php";
+                var_dump($argv);
+                $controller =  fopen(__DIR__ . '/app/modal/' . $argv[2] . '.php', 'wr', true);
+                fwrite($controller, $fileinfo);
+            }
+            if ($key == '-m') {
+                require_once __DIR__ . "/kernel/strings/controller/migration.php";
+
+                $controller =  fopen('database/migrations/' . ucfirst($name) . '.php', 'wr', true);
+                fwrite($controller, $fileinfo);
+            }
+            if ($key == 'v') {
+                require_once __DIR__ . "/kernel/strings/controller/modal.php";
+                $controller =  fopen('view/' . $file . '.php', 'wr', true);
+                fwrite($controller, $viewInfo);
+            }
         }
-      }
-      if ($key == 'del' and $key == '-d') {
-
-        $del = dirname(__DIR__) . "/mvc_by_me/controller/" . $file . ".php";
-        shell_exec("sudo rm $del");
-      }
-      if ($key == 'm') {
-        require_once __DIR__ . "/kernel/strings/controller/modal.php";
-
-        $controller =  fopen('modal/' . $file . '.php', 'wr', true);
-        fwrite($controller, $fileinfo);
-      }
-      if ($key == '-m') {
-        require_once __DIR__ . "/kernel/strings/controller/migration.php";
-
-        $controller =  fopen('database/migrations/' . ucfirst($name) . '.php', 'wr', true);
-        fwrite($controller, $fileinfo);
-      }
-      if ($key == 'v') {
-        require_once __DIR__ . "/kernel/strings/controller/modal.php";
-        $controller =  fopen('view/' . $file . '.php', 'wr', true);
-        fwrite($controller, $viewInfo);
-      }
     }
-  }
 }
 
 new artisan($argv);
