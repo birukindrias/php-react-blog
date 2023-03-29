@@ -18,7 +18,7 @@ const TopNavbar = () => {
   console.log(user.id);
   console.log(user);
   const token = useSelector((state) => state.userDataSlice.token) ?? false;
-  console.log('token');
+  console.log("token");
   console.log(token);
 
   const update = useSelector((state) => state.userDataSlice.update) ?? false;
@@ -61,6 +61,7 @@ const TopNavbar = () => {
       remember_token: token,
     });
     console.log("updated posts userPosts.data.posts");
+
     setUserPost(userPosts.data.posts);
   };
   let getboth = async () => {
@@ -211,14 +212,6 @@ const TopNavbar = () => {
                     <Link to="/profile">Profile</Link>
                   </h1>
                 </li> */}
-                {/* <li>
-                  <h1
-                    className="pl-8 px-3 lg:pl-0 text-gray-700"
-                    onClick={logout}
-                  >
-                    post
-                  </h1>
-                </li> */}
               </>
             ) : (
               <>
@@ -274,7 +267,13 @@ const TopNavbar = () => {
                 </li>
               </>
             ) : (
-              <> </>
+              <>
+                <li>
+                  <Link to="/login" state={{ id: user.id }}>
+                    <h1 className="pl-8 px-3 lg:pl-0 text-gray-700">Login</h1>
+                  </Link>
+                </li>
+              </>
             )}
           </ul>
         </nav>
