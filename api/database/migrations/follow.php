@@ -7,7 +7,7 @@ class follow
     public function up()
     {
         $SQL_QUERY = "CREATE TABLE IF NOT EXISTS follow (
-                  id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+                  fid INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
                   firstname VARCHAR(50),
                   lastname VARCHAR(50),
                   email VARCHAR(50),
@@ -20,5 +20,6 @@ class follow
     public function down()
     {
         $SQL_QUERY = "DROP TABLE IF EXISTS  follow";
-        App::$kernel->db->pdo->exec($SQL_QUERY);    }
+        App::$kernel->db->pdo->exec($SQL_QUERY);
+    }
 }

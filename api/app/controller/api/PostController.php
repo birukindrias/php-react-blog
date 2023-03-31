@@ -13,14 +13,18 @@ class PostController
     // posts
     public function index()
     {
-        $posts = new Post();
 
-        $data =  $posts->SelectAll();
 
         // return    var_dump($data );
         $posts = new Post();
-        $data =  $posts->SelectAll();
+        $data =  $posts->Leftjoin(
+            'posts',
+            'likes',
+            'id',
+            'post_id',
+        );
         // var_dump(array_reverse($data));
+        // var_dump("$data");
         // var_dump($data);
         echo json_encode(['posts' => $data]);
     }
@@ -30,7 +34,11 @@ class PostController
 
         $json = file_get_contents('php://input'); // Returns data from the request body
         $decodedData = json_decode($json, true);
+        echo "<pre>";
+        var_dump($decodedData);
         $foundedUser = $user->FindOne(['id' => $decodedData['id']]);
+        var_dump($foundedUser);
+        var_dump($foundedUser[0]['id']);
 
         // var_dump($foundedUser);
         // var_dump(
@@ -67,7 +75,13 @@ class PostController
         $json = file_get_contents('php://input'); // Returns data from the request body
         $decodedData = json_decode($json, true);
         $foundedpost = $post->FindOne(['id' => $decodedData['id']]);
-
+        $data =  $post->join(
+            'users',
+            'posts',
+            'id',
+            'user_id',
+            $foundedpost[0]['id']
+        );
         // var_dump($foundedpost);
         // var_dump(
         //     $foundedpost[0]['id']
@@ -77,7 +91,7 @@ class PostController
         // var_dump($data);
 
         if (!empty($foundedpost)) {
-            echo json_encode(['posts' => $foundedpost]);
+            echo json_encode(['posts' => $data]);
             return;
         } else {
             echo json_encode(['posts' => false]);

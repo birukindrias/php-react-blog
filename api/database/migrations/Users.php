@@ -7,11 +7,11 @@ class Users
     public function up()
     {
         $SQL_QUERY = "CREATE TABLE IF NOT EXISTS users (
-                  id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+                  uid INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
                   username VARCHAR(50),
                   email VARCHAR(50),
                   password VARCHAR(50),
-                  img VARCHAR(250),
+                  pimg VARCHAR(250),
                   bio VARCHAR(250),
                   remember_token VARCHAR(100) DEFAULT NULL
        )
@@ -22,5 +22,5 @@ class Users
     {
         $SQL_QUERY = "DROP TABLE IF EXISTS  users";
         App::$kernel->db->pdo->exec($SQL_QUERY);
-      }
+    }
 }

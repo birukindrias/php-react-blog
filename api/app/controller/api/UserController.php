@@ -31,7 +31,7 @@ class UserController
         // var_dump($token);
         return  json_encode(['data' => ['user' =>
         [
-            'id' =>  $foundedUser[0]['id'],
+            'id' =>  $foundedUser[0]['uid'],
             'username' => $foundedUser[0]['username'],
             'bio' => $foundedUser[0]['bio'], 'password' => $foundedUser[0]['password'], 'email' => $foundedUser[0]['email'], 'img' => $foundedUser[0]['img']
         ], 'token' => $token]]);
@@ -43,12 +43,12 @@ class UserController
         $token = json_decode($json, true);
 
         $user = new Users();
-        $foundedUser = $user->FindOne(['id' => $token['id']]);
+        $foundedUser = $user->FindOne(['uid' => $token['id']]);
         // var_dump($userData);
         // var_dump($token);
         return  json_encode(['data' => ['user' =>
         [
-            'id' =>  $foundedUser[0]['id'],
+            'id' =>  $foundedUser[0]['uid'],
             'username' => $foundedUser[0]['username'],
             'bio' => $foundedUser[0]['bio'], 'password' => $foundedUser[0]['password'], 'email' => $foundedUser[0]['email'], 'img' => $foundedUser[0]['img']
         ], 'token' => $token]]);
@@ -87,7 +87,7 @@ class UserController
             $json = file_get_contents('php://input'); // Returns data from the request body
             $decodedData = json_decode($json, true);
             $imgName = App::$kernel->request->fileUpload('profile', 'profile');
-            $decodedData['img'] = $imgName;
+            $decodedData['pimg'] = $imgName;
             $User->loadData($decodedData);
 
             $foundedUser = $User->FindOne(['email' => $decodedData['email']]);
@@ -97,12 +97,12 @@ class UserController
                     # code...
                     // var_dump(    $decodedData);
                     $foundedUser = $User->FindOne(['email' => $decodedData['email']]);
-                    $User->update($foundedUser[0]['id'], ['remember_token' => $TOKEN]);
+                    $User->update($foundedUser[0]['uid'], ['remember_token' => $TOKEN]);
 
                     // return  json_encode(['res' => $foundedUser[0]['password']]);
                     return  json_encode(['data' => ['user' =>
                     [
-                        'id' =>  $foundedUser[0]['id'],
+                        'id' =>  $foundedUser[0]['uid'],
                         'username' => $foundedUser[0]['username'],
                         'password' => $foundedUser[0]['password'],
                         'bio' => $foundedUser[0]['bio'],
@@ -151,7 +151,7 @@ class UserController
 
                 return  json_encode(['data' => ['user' =>
                 [
-                    'id' =>  $foundedUser[0]['id'],
+                    'id' =>  $foundedUser[0]['uid'],
                     'username' => $foundedUser[0]['username'],
                     'password' => $foundedUser[0]['password'],
                     'email' => $foundedUser[0]['email'],
@@ -184,12 +184,12 @@ class UserController
             if ($foundedUser) {
 
                 $foundedUser = $User->FindOne(['email' => $decodedData['email']]);
-                $User->update($foundedUser[0]['id'], ['remember_token' => $TOKEN]);
+                $User->update($foundedUser[0]['uid'], ['remember_token' => $TOKEN]);
 
                 // return  json_encode(['res' => $foundedUser[0]['password']]);
                 return  json_encode(['data' => ['user' =>
                 [
-                    'id' =>  $foundedUser[0]['id'],
+                    'id' =>  $foundedUser[0]['uid'],
                     'bio' => $foundedUser[0]['bio'],
                     'firstname' => $foundedUser[0]['firstname'],
                     'password' => $foundedUser[0]['password'], 'email' => $foundedUser[0]['email'], 'lastname' => $foundedUser[0]['lastname']

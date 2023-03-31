@@ -22,7 +22,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-export default function PostItem({ post, index, img, title, user_id }) {
+export default function PostItem({ post, index, img, title, postid,userid }) {
   const location = useLocation();
   const [likes, setlikes] = useState([])
   const user =
@@ -32,25 +32,38 @@ export default function PostItem({ post, index, img, title, user_id }) {
   let imgi = `http://localhost:8080/storage/post_images/${imagevar}`;
   const like = async () => {
     let res = await axios.post("http://localhost:8080/api/v1/like", {
-      post_id: user_id,
-      user_id: user.id,
+      post_id: userid,
+      user_id: postid,
       litem: 1,
     });
     console.log(res);
   };
   const getlike = async () => {
     let res = await axios.get("http://localhost:8080/api/v1/like");
+    console.log('likes')
+    setlikes(res.data.likes.length);
+    console.log('likes')
+    console.log(res.data.likes.length)
+    console.log(likes)
     if (res) {
-      console.log('res.data.res');
-      console.log(res.data.likes.length);
-      console.log(res.data.likes.length);
-      setlikes(res.data.res);
+    //   console.log('res.data.res');
+    //   console.log(res.data.likes.length);
+    //   console.log(res.data.likes.length);
+    console.log('likes')
+
+      setlikes(res.data.likes.length);
+      console.log('likes')
       console.log(likes)
+
+      console.log('likes')
+
     }
   };
   useEffect(() => {
     getlike();
   }, []);
+  console.log(likes)
+
 
   return (
     <Card key={index} className="w-full max-w-[26rem] shadow-lg">
@@ -62,13 +75,12 @@ export default function PostItem({ post, index, img, title, user_id }) {
           color="red"
           variant="text"
           className="!absolute top-4 right-4 rounded-full"
-          onClick={like}
         >
           <HeartIcon className="h-6 w-6" />
         </IconButton>
       </CardHeader>
       <CardBody>
-        <Link to="/postitem" state={{ id: user_id }}>
+        <Link to="/postitem" state={{ id: postid }}>
           <div className="mb-3 flex items-center justify-between">
             <Typography variant="h5" color="blue-gray" className="font-medium">
               {title}
@@ -90,15 +102,17 @@ export default function PostItem({ post, index, img, title, user_id }) {
               <TvIcon className="h-5 w-5" />
             </span>
           </Tooltip>
-          <div className="flex flex-row ">
-            <Tooltip content="Fire alert">
+          <div className="flex flex-row " onClick={like}>
+            <Tooltip 
+          
+             content="Fire alert">
               <span className="cursor-pointer rounded-full border border-blue-500/5 bg-red-500/5 p-3 text-red-500 transition-colors hover:border-red-500/10 hover:bg-red-500/10 hover:!opacity-100 group-hover:opacity-70">
                 <FireIcon className="h-5 w-5" />
               </span>
             </Tooltip>
             <Tooltip content="And +20 more">
               <span className="cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-gray-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70">
-                +20
+                {likes}
               </span>
             </Tooltip>
           </div>

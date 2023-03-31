@@ -38,9 +38,10 @@ function App() {
             </>
           ) : (
             <>
+              <Route path="/userprofile" element={<Otheruser />} />
+              <Route path="/postitem" element={<Post />} />
               <Route path="/" element={<HomePage />} />
               <Route path="/dashboard" element={<HomePage />} />
-              <Route path="/userprofile" element={<Otheruser />} />
 
               <Route
                 path="/register"

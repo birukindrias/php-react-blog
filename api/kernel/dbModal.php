@@ -27,7 +27,6 @@ abstract class dbModal
             $QUERY_STMT->bindValue(":$key", $this->{$key});
         }
         $QUERY_STMT->execute();
-        // var_dump($QUERY_STMT);
         return true;
     }
     public function savebyId($id)
@@ -49,11 +48,7 @@ abstract class dbModal
         $table_name = $this->table_name();
         $array_key = array_keys($values);
         $input_keys = implode(",", array_map(fn ($key) => "$key = :$key", $array_key));
-        $token =  $values['remember_token'];
-        // $update_keys = implode(",", array_map(fn ($m) => "$m = :$m", $input_keys));
-        // var_dump($update_keys)
-        // $SQL_QUERY = "INSERT $table_name (user_id,post) VALUES (:user_id,post)";
-        $SQL_QUERY = "UPDATE $table_name SET $input_keys WHERE id = $id";
+        $SQL_QUERY = "UPDATE $table_name SET $input_keys WHERE uid = $id";
 
         // var_dump(
         //     $SQL_QUERY
@@ -146,7 +141,7 @@ abstract class dbModal
 
         $QUERY_STMT = App::$kernel->db->pdo->prepare($SQL_QUERY);
         foreach ($thisarrayok as $key => $value) {
-            $QUERY_STMT->bindValue(":$key", '%'.$value.'%');
+            $QUERY_STMT->bindValue(":$key", '%' . $value . '%');
         }
 
         $QUERY_STMT->execute();
@@ -189,15 +184,22 @@ abstract class dbModal
         return
             array_reverse($data);
     }
-    public function join($tablename1, $tablename2, $id, $id2,$idval)
+    public function join($tablename1, $tablename2, $id, $id2, $idval = false)
     {
         // $qry = "SELECT emp.id,emp.FirstName, dept.dept_name FROM emp INNER JOIN dept on emp.id = dept.dept_id";
         // $sql = "SELECT * FROM $tablename1 LEFT  JOIN users on $tablename1.id = $tablename2.id AND $tablename1.id = $id";
         // $sql = "SELECT * FROM $tablename1  INNER JOIN $tablename2  ON $tablename1.id = $tablename2.user_id ";
-        $sql = "SELECT *
+        if ($idval) {
+            $sql = "SELECT *
         FROM $tablename1
        INNER JOIN $tablename2
           ON $tablename1.$id = $tablename2.$id2 WHERE $tablename1.$id = $idval ";
+        } else {
+            $sql = "SELECT *
+            FROM $tablename1
+           INNER JOIN $tablename2
+              ON $tablename1.$id = $tablename2.$id2";
+        }
         // var_dump($sql);
         // $sql = "SELECT * FROM $tablename1  FULL JOIN $tablename2 ON $tablename1.id = $tablename2.id WHERE $tablename1.id = $id";
         //  SELECT * FROM users LEFT JOIN users on users.id = posts.id AND users.id = 357;
@@ -207,6 +209,86 @@ abstract class dbModal
         $data = $QUERY_STMT->fetchAll(PDO::FETCH_ASSOC);
         // var_dump($data);
         return        array_reverse($data);
+        /**
+         * joinTHREE
+         *
+         * @param mixed tablename1
+         * @param mixed tablename2
+         * @param mixed tablename3
+         *
+         * @return void
+         */
+    }
+    public function Rightjoin($tablename1, $tablename2, $id, $id2, $idval = false)
+    {
+        // $qry = "SELECT emp.id,emp.FirstName, dept.dept_name FROM emp INNER JOIN dept on emp.id = dept.dept_id";
+        // $sql = "SELECT * FROM $tablename1 LEFT  JOIN users on $tablename1.id = $tablename2.id AND $tablename1.id = $id";
+        // $sql = "SELECT * FROM $tablename1  INNER JOIN $tablename2  ON $tablename1.id = $tablename2.user_id ";
+        if ($idval) {
+            $sql = "SELECT *
+        FROM $tablename1
+        RIGHT JOIN $tablename2
+          ON $tablename1.$id = $tablename2.$id2 WHERE $tablename1.$id = $idval ";
+        } else {
+            $sql = "SELECT *
+            FROM $tablename1
+            RIGHT JOIN $tablename2
+              ON $tablename1.$id = $tablename2.$id2";
+        }
+        // var_dump($sql);
+        // $sql = "SELECT * FROM $tablename1  FULL JOIN $tablename2 ON $tablename1.id = $tablename2.id WHERE $tablename1.id = $id";
+        //  SELECT * FROM users LEFT JOIN users on users.id = posts.id AND users.id = 357;
+        $QUERY_STMT = App::$kernel->db->pdo->prepare($sql);
+        // var_dump($QUERY_STMT);
+        $QUERY_STMT->execute();
+        $data = $QUERY_STMT->fetchAll(PDO::FETCH_ASSOC);
+        // var_dump($data);
+        return        array_reverse($data);
+        /**
+         * joinTHREE
+         *
+         * @param mixed tablename1
+         * @param mixed tablename2
+         * @param mixed tablename3
+         *
+         * @return void
+         */
+    }
+    public function Leftjoin($tablename1, $tablename2, $id, $id2, $idval = false)
+    {
+        // $qry = "SELECT emp.id,emp.FirstName, dept.dept_name FROM emp INNER JOIN dept on emp.id = dept.dept_id";
+        // $sql = "SELECT * FROM $tablename1 LEFT  JOIN users on $tablename1.id = $tablename2.id AND $tablename1.id = $id";
+        // $sql = "SELECT * FROM $tablename1  INNER JOIN $tablename2  ON $tablename1.id = $tablename2.user_id ";
+        if ($idval) {
+            $sql = "SELECT *
+        FROM $tablename1
+        LEFT JOIN $tablename2
+          ON $tablename1.$id = $tablename2.$id2 WHERE $tablename1.$id = $idval ";
+        } else {
+            $sql = "SELECT *
+            FROM $tablename1
+            LEFT JOIN $tablename2
+              ON $tablename1.$id = $tablename2.$id2";
+        }
+        var_dump($sql);
+        // $sql = "SELECT * FROM $tablename1  FULL JOIN $tablename2 ON $tablename1.id = $tablename2.id WHERE $tablename1.id = $id";
+        //  SELECT * FROM users LEFT JOIN users on users.id = posts.id AND users.id = 357;
+        $QUERY_STMT = App::$kernel->db->pdo->prepare($sql);
+        // var_dump($QUERY_STMT);
+        $QUERY_STMT->execute();
+        $data = $QUERY_STMT->fetchAll(PDO::FETCH_ASSOC);
+        var_dump('$data');
+        var_dump($data);
+        return        array_reverse($data);
+        /**
+         * joinTHREE
+         *
+         * @param mixed tablename1
+         * @param mixed tablename2
+         * @param mixed tablename3
+         *
+         * @return void
+         */
     }
     public function joinTHREE($tablename1, $tablename2, $tablename3)
     {

@@ -13,15 +13,7 @@ const TopNavbar = () => {
   const [model, setmodel] = useState(false);
   const [posts, setposts] = useState([]);
   const [searchitem, setsearchitem] = useState("");
-  const user =
-    useSelector((state) => state.userDataSlice.userData["user"]) ?? false;
-  console.log(user.id);
-  let userId 
-  if (user) {
-    userId = user.id;
-    
-  }
-  console.log(user);
+
   const token = useSelector((state) => state.userDataSlice.token) ?? false;
   console.log("token");
   console.log(token);
@@ -48,7 +40,7 @@ const TopNavbar = () => {
   };
 
   const [postValues, setpostValues] = useState({
-    user_id: userId,
+    user_id: 1,
     post: "",
     img: {},
   });
@@ -63,12 +55,12 @@ const TopNavbar = () => {
     let res = await axios.get("http://localhost:8080/api/v1/posts");
     setPosts(res.data.posts);
     let userPosts = await axios.post("http://localhost:8080/api/v1/userposts", {
-      id:user.id,
+      id: user.id,
     });
     console.log("updated posts userPosts.data.posts");
 
     setUserPost(userPosts.data.posts);
-    console.log(userPosts.data.posts)
+    console.log(userPosts.data.posts);
   };
   let getboth = async () => {
     if (getUserFromBackend()) {
@@ -78,6 +70,13 @@ const TopNavbar = () => {
   useEffect(() => {
     getboth();
   }, [update]);
+  const user = localStorage.getItem("oo") ?? false;
+  console.log("user.sadfsadfsadfid");
+  console.log(user[0]);
+  let userId;
+  if (user) {
+    userId = user.id;
+  }
   let image = `http://localhost:8080/storage/profile/${
     user.img ? user.img : "def.jpeg"
   }`;

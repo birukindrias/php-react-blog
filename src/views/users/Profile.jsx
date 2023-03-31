@@ -82,7 +82,7 @@ const Profile = () => {
     }
   };
   useEffect(() => {
-    getUserDAta()
+    getUserDAta();
   }, []);
   // ? handle profile update form insertion
   const handleChange = (event) => {

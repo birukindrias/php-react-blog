@@ -1,4 +1,5 @@
 <?php
+
 use App\kernel\App;
 
 class Likes
@@ -6,7 +7,7 @@ class Likes
     public function up()
     {
         $SQL_QUERY = "CREATE TABLE IF NOT EXISTS  likes (
-                  id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+                  lid INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
                   `litem` VARCHAR(50),
                   `post_id` VARCHAR(50),
                   `user_id` VARCHAR(50)

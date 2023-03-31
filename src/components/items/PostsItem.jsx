@@ -19,6 +19,8 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default function PostsItem() {
   const posts = useSelector((state) => state.userDataSlice.posts) ?? false;
+  console.log('posts')
+  console.log(posts)
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -32,7 +34,8 @@ export default function PostsItem() {
                   title={post.title}
                   index={index}
                   img={post.img}
-                  user_id={post.id}
+                  postid={post.id}
+                  userid={post.user_id}
                 />
               </Grid>
             ))

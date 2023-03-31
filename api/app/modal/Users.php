@@ -11,12 +11,12 @@ class Users extends Modal
     public string $email = '';
     public string $password = '';
     public string $cpass = '';
-    public string $img= '';
-    public string $bio= '';
+    public string $pimg = '';
+    public string $bio = '';
 
     public static function primaryKey(): string
     {
-        return 'id';
+        return 'uid';
     }
     public static function table_name(): string
     {
@@ -42,7 +42,7 @@ class Users extends Modal
             'username',
             'email',
             'password',
-            'img',
+            'pimg',
             'bio',
             // 'cpass'
 

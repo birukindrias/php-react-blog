@@ -24,6 +24,7 @@ import axios from "axios";
 
 export default function Post() {
   const location = useLocation();
+  const [likes, setlikes] = useState([])
 
   const id = location.state.id;
   const [posts, setPosts] = useState([]);
@@ -34,10 +35,13 @@ export default function Post() {
     const oposts = await axios.post("http://localhost:8080/api/v1/post", {
       id: id,
     });
-    console.log("oposts.data.possssts");
-    console.log(oposts.data.posts[0]);
+    console.log(oposts);
+
     setPosts(oposts.data.posts[0]);
+  
     if (posts) {
+        console.log("oposts.data.possssts");
+        console.log(oposts.data.posts[0]);
       console.log("posts");
       console.log(posts.img);
       console.log(post);
@@ -48,19 +52,30 @@ export default function Post() {
   useEffect(() => {
     getpost();
   }, []);
+  
   let img = posts.img;
+  let username = posts.username;
   let title = posts.title;
   let post = posts.post;
+//   let uid = posts.user/;/
   let user_id = posts.user_id;
   let imagevar = img ? img : "post.png";
+  let imagevare = img ? img : "def.jpeg";
   let imgi = `http://localhost:8080/storage/post_images/${imagevar}`;
-
+  let imgu = `http://localhost:8080/storage/profile/${imagevare}`;
+  const like = async () => {
+    let res = await axios.post("http://localhost:8080/api/v1/like", {
+      post_id: userid,
+      user_id: postid,
+      litem: 1,
+    });
+    console.log(res);
+  };
   return (
-    <Card className="w-full max-w-[26rem] shadow-lg">
-      <Link to="/postitem">
+    <Card className="w-full min-w-[26rem] shadow-lg">
         <CardHeader floated={false} color="blue-gray">
-          <img src={imgi} alt="ui/ux review check" />
-          <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60 " />
+          <img src={imgi} className="w-full" alt="ui/ux review check" />
+          <div className="to-bg-black-10 absolute inset-0 h-16 w-full bg-gradient-to-tr from-transparent via-transparent to-black/60 " />
           <IconButton
             size="sm"
             color="red"
@@ -71,6 +86,12 @@ export default function Post() {
           </IconButton>
         </CardHeader>
         <CardBody>
+        <Link to="/userprofile" state={{ id: user_id }}>
+
+          <img src={imgu} className="w-11 h-11 rounded-full" alt="ui/ux review check" />
+
+            {username}
+            </Link>
           <div className="mb-3 flex items-center justify-between">
             <Typography variant="h5" color="blue-gray" className="font-medium">
               {title}
@@ -90,7 +111,7 @@ export default function Post() {
                 <TvIcon className="h-5 w-5" />
               </span>
             </Tooltip>
-            <div className="flex flex-row ">
+            <div className="flex flex-row " onClick={like}>
               <Tooltip content="Fire alert">
                 <span className="cursor-pointer rounded-full border border-blue-500/5 bg-red-500/5 p-3 text-red-500 transition-colors hover:border-red-500/10 hover:bg-red-500/10 hover:!opacity-100 group-hover:opacity-70">
                   <FireIcon className="h-5 w-5" />
@@ -104,7 +125,6 @@ export default function Post() {
             </div>
           </div>
         </CardBody>
-      </Link>
       {/* <CardFooter className="pt-3">
             <Button size="lg" fullWidth={true}>
               Reserve

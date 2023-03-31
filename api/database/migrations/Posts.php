@@ -1,4 +1,5 @@
 <?php
+
 use App\kernel\App;
 
 class Posts
@@ -6,7 +7,7 @@ class Posts
     public function up()
     {
         $SQL_QUERY = "CREATE TABLE IF NOT EXISTS  posts (
-                  id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+                  pid INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
                   title VARCHAR(1050),
                   post VARCHAR(1050),
                   img VARCHAR(1050),
