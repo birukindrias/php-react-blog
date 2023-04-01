@@ -41,7 +41,7 @@ export default function SignInSide() {
   const user = useSelector((state) => state.userDataSlice.userData["user"]);
   // seter data
   const [useriData, setuserData] = useState();
-  // gt o vaues
+  // gto vaues
   const [formValues, setFormValues] = useState({
     username: "",
     email: "",
@@ -72,15 +72,10 @@ export default function SignInSide() {
       "http://localhost:8080/api/v1/createUser",
       formValues
     );
-    console.log(response.data);
-    console.log(response.data);
-    saveUser(response.data.data);
-    signinUser();
-    console.log("response.data");
+    console.log("saving user in register");
     console.log(response.data.data);
+    signinUser();
     navigate("/dashboard");
-    console.log("response.data.data");
-
     //   setErrorMessage(error.response.data.message);
   };
 

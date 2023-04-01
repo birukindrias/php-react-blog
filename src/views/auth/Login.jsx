@@ -42,7 +42,6 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function Login() {
-  const user = useSelector((state) => state.userDataSlice.userData["user"]);
   const [useriData, setuserData] = useState();
   const [errors, seterrors] = useState("");
   const [formValues, setFormValues] = useState({
@@ -68,45 +67,21 @@ export default function Login() {
   const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(formValues);
-    // try {
-    //   const response = await axios.post(
-    //     "http://localhost:8080/api/v1/login",
-    //     formValues
-    //   );
-    //   console.log(response.data);
-    //   console.log(response.data);
-    //   console.log("response.data");
-    //   console.log(response.data.data);
-    //   console.log("responsee.data.data");
-    // } catch (e) {
-    //   console.log(e.toJSON().message);
-    //   console.log(response.data);
-    // }
+  
     const response = await axios.post(
       "http://localhost:8080/api/v1/login",
       formValues
     );
-    //   console.log(response.data);
-    //   console.log(response.data);
-    //   saveUser(e.data.data);
-    //   console.log("response.data");
-    //   console.log(response.data.data);
-    console.log(response.data);
-
+  
     if (response.data.error) {
-      console.log(response.data);
+      
       seterrors(response.data.error);
     } else {
+      saveUser('saving user');
       saveUser(response.data.data);
       signinUser();
-
       navigate("/dashboard");
-
-      console.log(response.data);
     }
-
-    //   setErrorMessage(error.response.data.message);
   };
 
   return (

@@ -8,10 +8,10 @@ use PDO;
 abstract class dbModal
 {
 
-    public static function primaryKey(): string
-    {
-        return 'id';
-    }
+    // public static function primaryKey(): string
+    // {
+    //     return 'id';
+    // }
     abstract public function attrs(): array;
     abstract public static function table_name(): string;
     // abstract public function primary_key(): array;
@@ -209,15 +209,6 @@ abstract class dbModal
         $data = $QUERY_STMT->fetchAll(PDO::FETCH_ASSOC);
         // var_dump($data);
         return        array_reverse($data);
-        /**
-         * joinTHREE
-         *
-         * @param mixed tablename1
-         * @param mixed tablename2
-         * @param mixed tablename3
-         *
-         * @return void
-         */
     }
     public function Rightjoin($tablename1, $tablename2, $id, $id2, $idval = false)
     {
@@ -244,16 +235,18 @@ abstract class dbModal
         $data = $QUERY_STMT->fetchAll(PDO::FETCH_ASSOC);
         // var_dump($data);
         return        array_reverse($data);
-        /**
-         * joinTHREE
-         *
-         * @param mixed tablename1
-         * @param mixed tablename2
-         * @param mixed tablename3
-         *
-         * @return void
-         */
     }
+    /**
+     * Leftjoin
+     *
+     * @param mixed tablename1
+     * @param mixed tablename2
+     * @param mixed id
+     * @param mixed id2
+     * @param mixed idval
+     *
+     * @return void
+     */
     public function Leftjoin($tablename1, $tablename2, $id, $id2, $idval = false)
     {
         // $qry = "SELECT emp.id,emp.FirstName, dept.dept_name FROM emp INNER JOIN dept on emp.id = dept.dept_id";
@@ -270,27 +263,25 @@ abstract class dbModal
             LEFT JOIN $tablename2
               ON $tablename1.$id = $tablename2.$id2";
         }
-        var_dump($sql);
         // $sql = "SELECT * FROM $tablename1  FULL JOIN $tablename2 ON $tablename1.id = $tablename2.id WHERE $tablename1.id = $id";
         //  SELECT * FROM users LEFT JOIN users on users.id = posts.id AND users.id = 357;
         $QUERY_STMT = App::$kernel->db->pdo->prepare($sql);
         // var_dump($QUERY_STMT);
         $QUERY_STMT->execute();
         $data = $QUERY_STMT->fetchAll(PDO::FETCH_ASSOC);
-        var_dump('$data');
-        var_dump($data);
-        return        array_reverse($data);
-        /**
-         * joinTHREE
-         *
-         * @param mixed tablename1
-         * @param mixed tablename2
-         * @param mixed tablename3
-         *
-         * @return void
-         */
+        return array_reverse($data);
     }
+    /**
+     * joinTHREE
+     *
+     * @param mixed tablename1
+     * @param mixed tablename2
+     * @param mixed tablename3
+     *
+     * @return void
+     */
     public function joinTHREE($tablename1, $tablename2, $tablename3)
+
     {
         // $qry = "SELECT emp.id,emp.FirstName, dept.dept_name FROM emp INNER JOIN dept on emp.id = dept.dept_id";
         // $sql = "SELECT * FROM $tablename1 LEFT  JOIN users on $tablename1.id = $tablename2.id AND $tablename1.id = $id";

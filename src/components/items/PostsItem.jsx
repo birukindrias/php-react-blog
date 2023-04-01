@@ -34,12 +34,13 @@ export default function PostsItem() {
                   title={post.title}
                   index={index}
                   img={post.img}
-                  postid={post.id}
+                  postid={post.pid}
                   userid={post.user_id}
                 />
               </Grid>
             ))
-          : "Loading..."}
+          : <div class="w-full h-full text-center">
+            No Posts</div>}
       </Grid>
     </Box>
   );

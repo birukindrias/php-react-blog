@@ -43,7 +43,6 @@ const Profile = () => {
     dispatch(actions_usr.setOthorUser(ouser));
   };
   // data
-  const update = useSelector((state) => state.userDataSlice.update);
   const userPost =
     useSelector((state) => state.userDataSlice.userPost) ?? false;
   const user =
@@ -62,16 +61,7 @@ const Profile = () => {
   });
 
   const getUserDAta = async () => {
-    const id = location.state.id;
-    if (id != user.id) {
-      const response = await axios.post(
-        "http://localhost:8080/api/v1/getotheruser",
-        {
-          id: id,
-        }
-      );
-      saveOtherUser(response.data.data);
-    } else {
+    
       const response = await axios.post(
         "http://localhost:8080/api/v1/getuser",
         {
@@ -79,14 +69,12 @@ const Profile = () => {
         }
       );
       saveUser(response.data.data);
-    }
   };
   useEffect(() => {
     getUserDAta();
   }, []);
   // ? handle profile update form insertion
   const handleChange = (event) => {
-    console.log("   asdfklsa");
 
     setFormValues({
       ...formValues,
@@ -98,7 +86,7 @@ const Profile = () => {
         img: event.target.files[0],
       });
     }
-    console.log("   asdfklsa");
+    console.log("   form value update");
     console.log(formValues);
   };
   //   let getPosts = async () => {

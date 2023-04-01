@@ -40,7 +40,7 @@ function App() {
 function usePosts() {
   return useQuery("posts", async () => {
     const { data } = await axios.get(
-      "https://jsonplaceholder.typicode.com/posts"
+      "https://localhost:8080/v1/posts"
     );
     return data;
   });

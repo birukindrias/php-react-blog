@@ -7,6 +7,7 @@ import { IconButton } from "@material-tailwind/react";
 import { Input, Button } from "@material-tailwind/react";
 
 import { Textarea } from "@material-tailwind/react";
+// import AddPost from "./AddPost";
 const TopNavbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -20,8 +21,8 @@ const TopNavbar = () => {
 
   const update = useSelector((state) => state.userDataSlice.update) ?? false;
 
-  const setpostsdata = (data) => {
-    dispatch(actions_usr.setpostsdata(data));
+  const setOthorUserPosts = (data) => {
+    dispatch(actions_usr.setOthorUserPosts(data));
   };
   const setUserPost = (data) => {
     dispatch(actions_usr.setUserPost(data));
@@ -38,12 +39,23 @@ const TopNavbar = () => {
   const searchResult = (users) => {
     dispatch(actions_usr.searchResult(users));
   };
+  const handleChange = (event) => {
+    setsearchitem(event.target.value);
+  };
+  const Search = async (e) => {
+    if (searchitem != "") {
+      e.preventDefault();
+      console.log(searchitem);
+      const response = await axios.post("http://localhost:8080/api/v1/search", {
+        searchuser: searchitem,
+      });
+      searchResult(response.data.data.users);
+      console.log(response.data.data.users);
+      setsearchitem("");
+      navigate("/users");
+    }
+  };
 
-  const [postValues, setpostValues] = useState({
-    user_id: 1,
-    post: "",
-    img: {},
-  });
   const getUserFromBackend = async () => {
     const response = await axios.post("http://localhost:8080/api/v1/getuser", {
       token: token,
@@ -55,7 +67,8 @@ const TopNavbar = () => {
     let res = await axios.get("http://localhost:8080/api/v1/posts");
     setPosts(res.data.posts);
     let userPosts = await axios.post("http://localhost:8080/api/v1/userposts", {
-      id: user.id,
+    //   id: user.uid,
+      id: 2,
     });
     console.log("updated posts userPosts.data.posts");
 
@@ -70,16 +83,7 @@ const TopNavbar = () => {
   useEffect(() => {
     getboth();
   }, [update]);
-  const user = localStorage.getItem("oo") ?? false;
-  console.log("user.sadfsadfsadfid");
-  console.log(user[0]);
-  let userId;
-  if (user) {
-    userId = user.id;
-  }
-  let image = `http://localhost:8080/storage/profile/${
-    user.img ? user.img : "def.jpeg"
-  }`;
+
 
   let postini = `http://localhost:8080/storage/files/blog.png`;
 
@@ -132,22 +136,10 @@ const TopNavbar = () => {
     setmodel(!model);
   };
 
-  const handleChange = (event) => {
-    setsearchitem(event.target.value);
-  };
-  const Search = async (e) => {
-    if (searchitem != "") {
-      e.preventDefault();
-      console.log(searchitem);
-      const response = await axios.post("http://localhost:8080/api/v1/search", {
-        searchuser: searchitem,
-      });
-      searchResult(response.data.data.users);
-      console.log(response.data.data.users);
-      setsearchitem("");
-      navigate("/users");
-    }
-  };
+ 
+  let image = `http://localhost:8080/storage/profile/${
+       "def.jpeg"
+      }`;
 
   return (
     <div>
@@ -191,13 +183,11 @@ const TopNavbar = () => {
                 >
                   Invite
                 </Button>
+               
               </form>
+             
             </div>
-
-            {/* <i class="fa-solid fa-circle-plus text-orange-700 w-20 h-20" ></i> */}
-            {token ? (
-              <>
-                <IconButton
+            <IconButton
                   variant="outlined"
                   className="px-3 ml-4 text-orange-600"
                   onClick={openModel}
@@ -205,85 +195,13 @@ const TopNavbar = () => {
                   <i
                     className=" fas fa-circle-plus text-orange-600"
                     onClick={openModel}
-                  />
+                    />
                 </IconButton>
-                {/* <li>
-                  <h1 className="pl-8 px-3 lg:pl-0 text-gray-700">
-                    <Link to="/dashboard">Home</Link>
-                  </h1>
-                </li> */}
-                {/* <li>
-                  <h1 className="pl-8 px-3 lg:pl-0 text-gray-700">
-                    <Link to="/profile">Profile</Link>
-                  </h1>
-                </li> */}
-              </>
-            ) : (
-              <>
-                {/* <li>
-                  <h1 className="pl-8  px-3 lg:pl-0 text-gray-700">
-                    <Link to="/">Home</Link>
-                  </h1>
-                </li>
-                <li>
-                  <h1 className="pl-8 px-3 lg:pl-0 text-gray-700">
-                    <Link to="login">login</Link>
-                  </h1>
-                </li> */}
-              </>
-            )}
-          </ul>
 
-          <ul className="flex items-center">
+            {/* <i class="fa-solid fa-circle-plus text-orange-700 w-20 h-20" ></i> */}
             {token ? (
               <>
-                {" "}
-                <li className="pr-6">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinejoin="round"
-                    className="feather feather-bell"
-                  >
-                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-                    <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-                  </svg>
-                </li>
-                <li className="h-10 w-10">
-                  <Link to="/profile" state={{ id: user.id }}>
-                    {" "}
-                    <div
-                      className="w-10 h-10 bg-cover bg-center  bg-no-repeat rounded-full"
-                      img={image}
-                      Style={`background-image: url(${image})`}
-                    >
-                      {/* <img
-              className="w-16 h-16 bg-auto bg-center bg-no-repeat rounded-full"
-              src={image}
-              alt=""
-            /> */}
-                    </div>
-                  </Link>
-                </li>
-              </>
-            ) : (
-              <>
-                <li>
-                  <Link to="/login" state={{ id: user.id }}>
-                    <h1 className="pl-8 px-3 lg:pl-0 text-gray-700">Login</h1>
-                  </Link>
-                </li>
-              </>
-            )}
-          </ul>
-        </nav>
-      </div>
-      {model && (
+                            {model && (
         <div className="absolute  top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mt-5 z-10 mx-auto w-full h-full max-w-2xl md:h-auto">
           <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
             <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
@@ -364,6 +282,83 @@ const TopNavbar = () => {
           </div>
         </div>
       )}
+                {/* <li>
+                  <h1 className="pl-8 px-3 lg:pl-0 text-gray-700">
+                    <Link to="/dashboard">Home</Link>
+                  </h1>
+                </li> */}
+                {/* <li>
+                  <h1 className="pl-8 px-3 lg:pl-0 text-gray-700">
+                    <Link to="/profile">Profile</Link>
+                  </h1>
+                </li> */}
+              </>
+            ) : (
+              <>
+                {/* <li>
+                  <h1 className="pl-8  px-3 lg:pl-0 text-gray-700">
+                    <Link to="/">Home</Link>
+                  </h1>
+                </li>
+                <li>
+                  <h1 className="pl-8 px-3 lg:pl-0 text-gray-700">
+                    <Link to="login">login</Link>
+                  </h1>
+                </li> */}
+              </>
+            )}
+          </ul>
+
+          <ul className="flex items-center">
+            {token ? (
+              <>
+                {" "}
+                <li className="pr-6">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinejoin="round"
+                    className="feather feather-bell"
+                  >
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                  </svg>
+                </li>
+                <li className="h-10 w-10">
+                  <Link to="/profile" state={{ id: 2 }}>
+                    {" "}
+                    <div
+                      className="w-10 h-10 bg-cover bg-center  bg-no-repeat rounded-full"
+                      img={image}
+                      Style={`background-image: url(${image})`}
+                    >
+                      {/* <img
+              className="w-16 h-16 bg-auto bg-center bg-no-repeat rounded-full"
+              src={image}
+              alt=""
+            /> */}
+                    </div>
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <Link to="/login" state={{ id: 2 }}>
+                    <h1 className="pl-8 px-3 lg:pl-0 text-gray-700">Login</h1>
+                  </Link>
+                </li>
+              </>
+            )}
+          </ul>
+        </nav>
+      </div>
+    
     </div>
   );
 };

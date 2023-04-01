@@ -12,7 +12,7 @@ export const Dashboard = () => {
   const [update, setupdate] = useState(false);
 
   const [postValues, setpostValues] = useState({
-    user_id: user.id,
+    user_id: user.uid,
     post: "",
     img: {},
   });
@@ -20,7 +20,7 @@ export const Dashboard = () => {
   // handle form insertion
 
   const handleChange = (event) => {
-    console.log(postValues);
+    // console.log(postValues);
 
     setpostValues({
       ...postValues,
@@ -32,7 +32,7 @@ export const Dashboard = () => {
         img: event.target.files[0],
       });
     }
-    console.log(postValues);
+    // console.log(postValues);
   };
 
   const createPost = async () => {
@@ -48,6 +48,7 @@ export const Dashboard = () => {
       }
     );
     setupdate(true);
+    console.log('login posts');
     console.log(response.data);
   };
   const getUserDAta = async () => {
@@ -61,6 +62,8 @@ export const Dashboard = () => {
         },
       }
     );
+    console.log('the user');
+
     console.log(response.data);
   };
 

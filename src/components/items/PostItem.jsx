@@ -25,15 +25,16 @@ import axios from "axios";
 export default function PostItem({ post, index, img, title, postid,userid }) {
   const location = useLocation();
   const [likes, setlikes] = useState([])
-  const user =
-    useSelector((state) => state.userDataSlice.userData["user"]) ?? false;
-  console.log(user.id);
+//   let useri =JSON.parse( localStorage.getItem("user"));
+//   console.log(useri[0])
+// let user = useri[0];
   let imagevar = img ? img : "post.png";
   let imgi = `http://localhost:8080/storage/post_images/${imagevar}`;
+
   const like = async () => {
     let res = await axios.post("http://localhost:8080/api/v1/like", {
-      post_id: userid,
-      user_id: postid,
+      post_id: postid,
+      user_id: user.uid,
       litem: 1,
     });
     console.log(res);
@@ -78,6 +79,7 @@ export default function PostItem({ post, index, img, title, postid,userid }) {
         >
           <HeartIcon className="h-6 w-6" />
         </IconButton>
+        
       </CardHeader>
       <CardBody>
         <Link to="/postitem" state={{ id: postid }}>
@@ -117,6 +119,7 @@ export default function PostItem({ post, index, img, title, postid,userid }) {
             </Tooltip>
           </div>
         </div>
+        
       </CardBody>
       {/* <CardFooter className="pt-3">
           <Button size="lg" fullWidth={true}>
