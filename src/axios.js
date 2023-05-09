@@ -24,7 +24,6 @@ export const fetchItems = () => async (dispatch) => {
 export const post = ({ post, user_id }) => async (dispatch) => {
     dispatch(createStart());
     try {
-        console.log(name);
 
         const response = await axios.post(
             api + "createpost",
@@ -38,13 +37,13 @@ export const post = ({ post, user_id }) => async (dispatch) => {
         dispatch(createFailure(error.message));
     }
 };
-export const searchUser = (search_user) => async (dispatch) => {
+export const searchUser = ({ search_user: search_user }) => async (dispatch) => {
     try {
         if (search_user != "") {
             console.log(search_user);
             console.log('search_user');
             const response = await axios.post("http://localhost:8080/api/v1/search", {
-                search_user,
+                 search_user: search_user 
             });
 
             console.log(response.data.data.users);

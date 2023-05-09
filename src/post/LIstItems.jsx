@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchItems } from "./itemsSlice";
+import { fetchItems } from "../../axios";
 
 const ItemList = () => {
   const items = useSelector((state) => state.items.items);

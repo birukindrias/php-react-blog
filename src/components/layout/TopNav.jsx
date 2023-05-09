@@ -81,7 +81,9 @@ function TopNav() {
                   <img
                     className="h-full w-full mx-auto rounded-lg"
                     // src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Svelte_Logo.svg/512px-Svelte_Logo.svg.png"
-                    src={`http://localhost:8080/storage/profile/${user["img"]}`}
+                    src={`http://localhost:8080/storage/profile/${
+                      user["img"] ? user["img"] : "def.jpeg"
+                    }`}
                     alt="profile logo"
                   />
                 </Link>

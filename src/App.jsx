@@ -19,22 +19,25 @@ function App() {
     <div>
       <Layout>
         <nav>
-          <ul>
-           
-          </ul>
+          <ul></ul>
         </nav>
 
         <Routes>
           {token ? (
             <>
+              <Route path="/" element={<Home />} />
               <Route path="/home" element={<Home />} />
               <Route path="/create" element={<ItemForm />} />
 
               <Route path="/profile" element={<Dashboard />} />
-              <Route path="/users" element={<Users   />} />
+              <Route path="/users" element={<Users />} />
             </>
           ) : (
             <>
+              <Route path="/" element={<Home />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/users" element={<Users />} />
+
               <Route path="/Signup" element={<Register />} />
               <Route path="/login" element={<Login />} />
             </>

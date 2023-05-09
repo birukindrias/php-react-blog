@@ -141,7 +141,7 @@ abstract class dbModal
 
         $QUERY_STMT = App::$kernel->db->pdo->prepare($SQL_QUERY);
         foreach ($thisarrayok as $key => $value) {
-            $QUERY_STMT->bindValue(":$key", '%' . $value . '%');
+            $QUERY_STMT->bindValue(":$key", '%' . $value );
         }
 
         $QUERY_STMT->execute();
