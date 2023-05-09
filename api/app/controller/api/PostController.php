@@ -27,19 +27,21 @@ class PostController
     }
     public function userPosts()
     {
-        $user = new Users();
+        $user = new Post();
         $json = file_get_contents('php://input'); // Returns data from the request body
         $decodedData = json_decode($json, true);
-        $foundedUser = $user->FindOne(['uid' => $decodedData['id']]);
-        $data =  $user->join(
-            'users',
-            'posts',
-            'uid',
-            'user_id',
-            $foundedUser[0]['uid']
-        );
-        if (!empty($data)) {
-            echo json_encode(['posts' => $data]);
+        $foundedUser = $user->FindOne(['user_id' => $decodedData['id']]);
+        // var_dump($decodedData['id']);
+        // var_dump( $foundedUser);
+        // $data =  $user->join(
+        //     'users',
+        //     'posts',
+        //     'uid',
+        //     'user_id',
+        //     $foundedUser[0]['uid']
+        // );
+        if (!empty($foundedUser)) {
+            echo json_encode(['posts' => array_reverse($foundedUser)]);
             return;
         } else {
             echo json_encode(['posts' => false]);
@@ -89,11 +91,16 @@ class PostController
     public  function create()
     {
         $Data = App::$kernel->request->getBody();
+        // var_dump($Data);
+
         $imgName = App::$kernel->request->fileUpload('img', 'post_images');
         $User = new Post();
         if (App::$kernel->request->isPost()) {
+            $json = file_get_contents('php://input'); // Returns data from the request body
+            $decodedData = json_decode($json, true);
             $User = new Post();
             $Data['img'] = $imgName;
+            var_dump($Data);
             $User->loadData($Data);
 
             if ($User->save()) {
@@ -125,6 +132,9 @@ class PostController
         }
         if (App::$kernel->request->isGet()) {
             $Likes = new Likes();
+            foreach ($Likes->SelectAll() as $key => $value) {
+                var_dump($value);
+            }
             return json_encode(['likes' =>  $Likes->SelectAll()]);
         }
 

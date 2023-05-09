@@ -1,3 +1,4 @@
 npm run dev
+sudo service mysql start
 cd api
 php -S localhost:8080 -t public

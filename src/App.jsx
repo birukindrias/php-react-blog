@@ -1,63 +1,46 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import "./output.css";
+import { Routes, Route, Link } from "react-router-dom";
+import PrivateRoute from "./components/PrivateRoute";
+import Dashboard from "./components/Dashboard";
+// import About from "./About";
+// import Contact from "./Cosdfntact";
+import Login from "./components/Login";
+import Register from "./components/Register";
 import Layout from "./components/layout/Layout";
-import { Routes, Route } from "react-router-dom";
-import Register from "./views/auth/Register.jsx";
-import HomePage from "./views/users/HomePage";
-import { Dashboard } from "./views/users/Dashboard.jsx";
-import Login from "./views/auth/Login.jsx";
-import Ck from "./components/items/Ck";
-import TopNavbar from "./components/items/TopNavbar.jsx";
-
-import { Profile } from "./views/users/Profile";
-import Users from "./components/items/Users";
-import { Otheruser } from "./views/users/Otheruser";
-import PostItem from "./components/items/PostItem";
-import Post from "./views/posts/Post";
+import Home from "./components/Home";
+import { useSelector } from "react-redux";
+import ItemForm from "./components/post/ItemForm";
+import Users from "./components/users/Users";
 
 function App() {
-  let token = useSelector((state) => state.userDataSlice.token);
+  const token = useSelector((state) => state.auth.token) ?? null;
+  console.log(token);
 
   return (
-    <div className="App">
+    <div>
       <Layout>
-        {" "}
-        {<TopNavbar />}{" "}
+        <nav>
+          <ul>
+           
+          </ul>
+        </nav>
+
         <Routes>
           {token ? (
             <>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/users" element={<Users />} />
-              <Route path="/userprofile" element={<Otheruser />} />
-              <Route path="/postitem" element={<Post />} />
-              <Route path="/*" element={<Ck />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/create" element={<ItemForm />} />
 
+              <Route path="/profile" element={<Dashboard />} />
+              <Route path="/users" element={<Users   />} />
             </>
           ) : (
             <>
-              <Route path="/userprofile" element={<Otheruser />} />
-              <Route path="/postitem" element={<Post />} />
-              <Route path="/" element={<HomePage />} />
-              <Route path="/dashboard" element={<HomePage />} />
-
-              <Route
-                path="/register"
-                element={<Register onLogin={() => setIsLoggedIn(true)} />}
-              />
-              <Route path="/users" element={<Users />} />
-
-              <Route
-                path="/login"
-                element={<Login onLogin={() => setIsLoggedIn(true)} />}
-              />
-              <Route path="/*" element={<Ck />} />
+              <Route path="/Signup" element={<Register />} />
+              <Route path="/login" element={<Login />} />
             </>
           )}
         </Routes>
-      </Layout>{" "}
+      </Layout>
     </div>
   );
 }

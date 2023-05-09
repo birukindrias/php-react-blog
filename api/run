@@ -72,7 +72,13 @@ class  artisan
 
                     // shell_exec("php artisan_migrate.php");
                 }
-                //   shell_exec("php -S localhost:8080 -t public");
+                if ($key == 'r') {
+                    shell_exec("php -S localhost:8080 -t public");
+
+                    //   require_once __DIR__ . "/kernel/migration/artisan_migrate.php";
+
+                    // shell_exec("php artisan_migrate.php");
+                }
 
                 // shell_exec("php artisan_migrate.php");
             }

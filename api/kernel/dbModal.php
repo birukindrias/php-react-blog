@@ -94,7 +94,7 @@ abstract class dbModal
         $input_keys = implode(' AND ', array_map(fn ($key) => "$key = :$key", $array_key));
 
         // $input_keys = array_map(fn ($key) => "$key = :$key", $array_key);
-        $SQL_QUERY = "SELECT * FROM $table_name WHERE $input_keys";
+        $SQL_QUERY = "SELECT * FROM $table_name WHERE $input_keys ";
 
         $QUERY_STMT = App::$kernel->db->pdo->prepare($SQL_QUERY);
         foreach ($thisarrayok as $key => $value) {

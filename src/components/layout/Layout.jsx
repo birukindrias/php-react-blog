@@ -1,7 +1,7 @@
-import axios from "axios";
 import React from "react";
+import TopNav from "./TopNav";
 function Layout(props) {
-  return <div className="layout">{props.children}</div>;
+  return <div className="layout"><TopNav/>{props.children}</div>;
 }
 
 export default Layout;

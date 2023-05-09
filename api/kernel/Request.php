@@ -61,6 +61,7 @@ class Request
 
     {
         if (isset($_FILES[$name])) {
+            // var_dump($_FILES[$name]);
             $errors = array();
             $file_name = $_FILES[$name]['name'];
             $file_size = $_FILES[$name]['size'];

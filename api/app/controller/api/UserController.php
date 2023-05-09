@@ -80,6 +80,7 @@ class UserController
     {
         // echo  json_encode(['res' => 'this user already exist!']);
         // return true;
+
         $TOKEN = $this->rand_chars();
         if (App::$kernel->request->isPost()) {
 
@@ -99,13 +100,13 @@ class UserController
                     $foundedUser = $User->FindOne(['email' => $decodedData['email']]);
                     $User->update($foundedUser[0]['uid'], ['remember_token' => $TOKEN]);
 
-                    // return  json_encode(['res' => $foundedUser[0]['password']]);
                     return  json_encode(['data' => ['user' =>
                     [
                         'id' =>  $foundedUser[0]['uid'],
                         'username' => $foundedUser[0]['username'],
                         'password' => $foundedUser[0]['password'],
                         'bio' => $foundedUser[0]['bio'],
+                        'img' => $foundedUser[0]['img'],
                         'email' => $foundedUser[0]['email']
                     ], 'token' => $TOKEN]]);
                     // return  json_encode(['data' => [$foundedUser, 'token' => $s]]);
@@ -132,13 +133,13 @@ class UserController
             $decodedData = App::$kernel->request->getBody();
 
             $imgName = App::$kernel->request->fileUpload('img', 'profile');
-
-            $decodedData['img'] = $imgName;
+// var_dump($imgName);
+            // $decodedData['img'] = $imgName;
             $foundedUser = $User->FindOne(['remember_token' => $decodedData['remember_token']]);
             if ($imgName) {
-                $decodedData['img'] = $imgName;
+                $decodedData['pimg'] = $imgName;
             } else {
-                $decodedData['img'] = $foundedUser[0]['img'];
+                $decodedData['pimg'] = $foundedUser[0]['img'];
             }
             // var_dump($decodedData['img']);
 
@@ -157,7 +158,7 @@ class UserController
                     'email' => $foundedUser[0]['email'],
                     'bio' => $foundedUser[0]['bio'],
 
-                    'img' => $foundedUser[0]['img']
+                    'img' => $foundedUser[0]['pi    mg']
                 ], 'token' => $decodedData['remember_token']]]);
                 return  json_encode(['res' => 'profile updated!']);
             } else {

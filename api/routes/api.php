@@ -4,7 +4,7 @@ use App\app\controller\api\PostController;
 use App\app\controller\api\UserController;
 
 //? API ROUTE
-$kernel::$kernel->router->post('/api/v1/createUser', [UserController::class, 'create']);
+$kernel::$kernel->router->post('/api/v1/register', [UserController::class, 'create']);
 $kernel::$kernel->router->post('/api/v1/login', [UserController::class, 'login']);
 $kernel::$kernel->router->post('/api/v1/update', [UserController::class, 'update']);
 $kernel::$kernel->router->post('/api/v1/getotheruser', [UserController::class, 'getOtherUser']);
