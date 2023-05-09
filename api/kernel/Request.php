@@ -82,7 +82,7 @@ class Request
             // }
             // if ($file_size > 10) {
             // if (empty($errors) == true) {
-            $randNme = rand(0, 30000) . $file_name;
+            $randNme = rand(0, 30000) . 'file_name'. rand(0, 30000);
         $file_name=  str_replace('#','',$randNme);
 
             move_uploaded_file($file_tmp, dirname(__DIR__) . '/storage/' . $path . '/' . $file_name);

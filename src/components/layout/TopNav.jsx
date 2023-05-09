@@ -13,8 +13,6 @@ function TopNav() {
   const navigate = useNavigate();
   const token = useSelector((state) => state.auth.token) ?? null;
   const user = useSelector((state) => state.auth.user) ?? null;
-  console.log(user["img"]);
-  console.log(token);
   const Search = async (e) => {
     e.preventDefault();
 
@@ -68,7 +66,7 @@ function TopNav() {
                   variant="outlined"
                   className="px-3 ml-4 text-orange-600"
                 >
-                  <i className=" fas fa-circle-plus text-orange-600" />
+                  <i className="fas fa-circle-plus text-orange-600" />
                 </IconButton>
               </Link>
             ) : (

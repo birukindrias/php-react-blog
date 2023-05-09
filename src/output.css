@@ -796,8 +796,8 @@ video {
   margin-top: 2.5rem;
 }
 
-.mt-16 {
-  margin-top: 4rem;
+.mt-20 {
+  margin-top: 5rem;
 }
 
 .mt-4 {
@@ -818,18 +818,6 @@ video {
 
 .mt-px {
   margin-top: 1px;
-}
-
-.mt-1 {
-  margin-top: 0.25rem;
-}
-
-.mt-2 {
-  margin-top: 0.5rem;
-}
-
-.mt-20 {
-  margin-top: 5rem;
 }
 
 .block {
@@ -878,6 +866,10 @@ video {
 
 .h-16 {
   height: 4rem;
+}
+
+.h-28 {
+  height: 7rem;
 }
 
 .h-3 {
@@ -942,6 +934,10 @@ video {
   height: 100vh;
 }
 
+.h-36 {
+  height: 9rem;
+}
+
 .max-h-96 {
   max-height: 24rem;
 }
@@ -990,12 +986,12 @@ video {
   width: 3rem;
 }
 
-.w-16 {
-  width: 4rem;
-}
-
 .w-2\/5 {
   width: 40%;
+}
+
+.w-28 {
+  width: 7rem;
 }
 
 .w-3 {
@@ -1058,6 +1054,10 @@ video {
 
 .w-screen {
   width: 100vw;
+}
+
+.w-36 {
+  width: 9rem;
 }
 
 .min-w-0 {
@@ -2072,6 +2072,10 @@ video {
 
 .bg-cover {
   background-size: cover;
+}
+
+.bg-contain {
+  background-size: contain;
 }
 
 .bg-clip-border {
@@ -5494,30 +5498,12 @@ video {
 }
 
 @media (min-width: 540px) {
-  .sm\:my-16 {
-    margin-top: 4rem;
-    margin-bottom: 4rem;
-  }
-
-  .sm\:mt-16 {
-    margin-top: 4rem;
-  }
-
   .sm\:pt-5 {
     padding-top: 1.25rem;
   }
 }
 
 @media (min-width: 720px) {
-  .md\:my-16 {
-    margin-top: 4rem;
-    margin-bottom: 4rem;
-  }
-
-  .md\:mt-16 {
-    margin-top: 4rem;
-  }
-
   .md\:mt-5 {
     margin-top: 1.25rem;
   }
@@ -5533,10 +5519,6 @@ video {
 }
 
 @media (min-width: 960px) {
-  .lg\:mt-5 {
-    margin-top: 1.25rem;
-  }
-
   .lg\:pl-0 {
     padding-left: 0px;
   }

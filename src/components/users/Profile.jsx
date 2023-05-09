@@ -81,7 +81,9 @@ const Profile = () => {
     getUserPost();
     console.log(posts);
   }, []);
-  // console.log(data);
+  console.log('user');
+  console.log(user.img);
+  console.log(user.img);
   //   let image_Name = user.img ? user.img : "def.jpeg";
   let image = `http://localhost:8080/storage/profile/${
     user.img ? user.img : "def.jpeg"
@@ -178,7 +180,7 @@ const Profile = () => {
 
         <div className="flex flex-col justify-center items-center my-3">
           <div
-            className="w-16 h-16 bg-cover bg-center  bg-no-repeat rounded-full"
+            className="w-36 h-36  bg-center bg-cover bg-no-repeat rounded-full"
             img={image}
             Style={`background-image: url(${image})`}
           ></div>

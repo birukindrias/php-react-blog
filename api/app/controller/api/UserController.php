@@ -134,7 +134,7 @@ class UserController
 
             $imgName = App::$kernel->request->fileUpload('img', 'profile');
 // var_dump($imgName);
-            // $decodedData['img'] = $imgName;
+            $decodedData['pimg'] = $imgName;
             $foundedUser = $User->FindOne(['remember_token' => $decodedData['remember_token']]);
             if ($imgName) {
                 $decodedData['pimg'] = $imgName;
@@ -158,7 +158,7 @@ class UserController
                     'email' => $foundedUser[0]['email'],
                     'bio' => $foundedUser[0]['bio'],
 
-                    'img' => $foundedUser[0]['pi    mg']
+                    'img' => $foundedUser[0]['pimg']
                 ], 'token' => $decodedData['remember_token']]]);
                 return  json_encode(['res' => 'profile updated!']);
             } else {
