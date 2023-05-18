@@ -32,7 +32,7 @@ function ItemForm() {
     // console.log(event.target.title.name);
     setTimeout(async () => {
       const response = await axios.post(
-        "http://reactphp.biruksoftware.com/api/v1/createpost",
+        "https://reactphp.biruksoftware.com/api/v1/createpost",
         postValues,
         {
           headers: {
@@ -116,7 +116,7 @@ function ItemForm() {
                 onChange={handleChangepost}
               />
               {/* <UploadComponent /> */}
-              {/* <img src="http://reactphp.biruksoftware.com/filea/img/7444Screenshot_2023-03-09_16_49_23.png"/> */}
+              {/* <img src="https://reactphp.biruksoftware.com/filea/img/7444Screenshot_2023-03-09_16_49_23.png"/> */}
               <Button type="submit" onClick={createPost}>
                 post
               </Button>
