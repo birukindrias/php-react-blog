@@ -42,7 +42,7 @@ export const searchUser = ({ search_user: search_user }) => async (dispatch) => 
         if (search_user != "") {
             console.log(search_user);
             console.log('search_user');
-            const response = await axios.post("http://reactphp.biruksoftware.com/api/v1/search", {
+            const response = await axios.post("https://reactphp.biruksoftware.com/api/v1/search", {
                 search_user: search_user
             });
 
@@ -94,7 +94,7 @@ export const update = (formValues) => async (dispatch) => {
     try {
 
         const response = await axios.post(
-            "http://reactphp.biruksoftware.com/api/v1/update",
+            "https://reactphp.biruksoftware.com/api/v1/update",
             formValues,
             {
                 headers: {
