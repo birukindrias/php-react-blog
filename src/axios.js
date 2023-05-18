@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { loginStart, loginSuccess, loginFailure } from './store/AuthSlice';
-let api = 'http://reactphp.biruksoftware.com/api/v1/';
+let api = 'https://reactphp.biruksoftware.com/api/v1/';
 import { fetchStart, fetchSuccess, fetchFailure, createStart, createFailure } from './store/resourceSlice.jsx';
 import { searchResult } from './store/UserSlice.jsx';
 import { useDispatch, useSelector } from 'react-redux';
