@@ -1,11 +1,8 @@
-import React, { useState } from "react";
-import { Input, Button } from "@material-tailwind/react";
+import { Button, IconButton, Input } from "@material-tailwind/react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { IconButton } from "@material-tailwind/react";
+import { Link, useNavigate } from "react-router-dom";
 
-import { Textarea } from "@material-tailwind/react";
-import axios from "axios";
 import { searchUser } from "../../axios";
 
 function TopNav() {
@@ -29,7 +26,7 @@ function TopNav() {
                 <img
                   className="h-full w-full mx-auto"
                   // src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Svelte_Logo.svg/512px-Svelte_Logo.svg.png"
-                  src={`http://localhost:8080/storage/files/blog.png`}
+                  src={`http://reactphp.biruksoftware.com/storage/files/blog.png`}
                   alt=" logo"
                 />
               </Link>
@@ -81,7 +78,7 @@ function TopNav() {
                   <img
                     className="h-full w-full mx-auto rounded-lg"
                     // src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Svelte_Logo.svg/512px-Svelte_Logo.svg.png"
-                    src={`http://localhost:8080/storage/profile/${
+                    src={`http://reactphp.biruksoftware.com/storage/profile/${
                       user["img"] ? user["img"] : "def.jpeg"
                     }`}
                     alt="profile logo"

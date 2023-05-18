@@ -1,19 +1,16 @@
-import { Input } from "@material-tailwind/react";
-import { Textarea } from "@material-tailwind/react";
-import { Button } from "@material-tailwind/react";
+import { Button, Input } from "@material-tailwind/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // import { getUserSuccess } from "../store/users";
-import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import { styled } from "@mui/material/styles";
 // import PostItem from "./PostItem";
-import { logout as logingout } from "../../store/AuthSlice";
 import { update } from "../../axios";
+import { logout as logingout } from "../../store/AuthSlice";
 import PostItem from "../post/PostItem";
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -68,7 +65,7 @@ const Profile = () => {
   const [posts, setposts] = useState([]);
   const getUserPost = async () => {
     const response = await axios.post(
-      "http://localhost:8080/api/v1/userposts",
+      "http://reactphp.biruksoftware.com/api/v1/userposts",
       {
         id: user["id"],
       }
@@ -81,11 +78,11 @@ const Profile = () => {
     getUserPost();
     console.log(posts);
   }, []);
-  console.log('user');
+  console.log("user");
   console.log(user.img);
   console.log(user.img);
   //   let image_Name = user.img ? user.img : "def.jpeg";
-  let image = `http://localhost:8080/storage/profile/${
+  let image = `http://reactphp.biruksoftware.com/storage/profile/${
     user.img ? user.img : "def.jpeg"
   }`;
 

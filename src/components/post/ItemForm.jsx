@@ -1,16 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { Button, Input, Textarea } from "@material-tailwind/react";
 import axios from "axios";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  createStart,
-  createSuccess,
-  createFailure,
-} from "../../store/resourceSlice";
-import { post } from "../../axios";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { IconButton } from "@material-tailwind/react";
-import { Input, Button } from "@material-tailwind/react";
-import { Textarea } from "@material-tailwind/react";
+import { useNavigate } from "react-router-dom";
 
 function ItemForm() {
   const dispatch = useDispatch();
@@ -25,7 +17,6 @@ function ItemForm() {
       ...postValues,
       [event.target.name]: event.target.value,
     });
- 
 
     if (event.target.files) {
       setpostValues({
@@ -41,7 +32,7 @@ function ItemForm() {
     // console.log(event.target.title.name);
     setTimeout(async () => {
       const response = await axios.post(
-        "http://localhost:8080/api/v1/createpost",
+        "http://reactphp.biruksoftware.com/api/v1/createpost",
         postValues,
         {
           headers: {
@@ -125,7 +116,7 @@ function ItemForm() {
                 onChange={handleChangepost}
               />
               {/* <UploadComponent /> */}
-              {/* <img src="http://localhost:8080/filea/img/7444Screenshot_2023-03-09_16_49_23.png"/> */}
+              {/* <img src="http://reactphp.biruksoftware.com/filea/img/7444Screenshot_2023-03-09_16_49_23.png"/> */}
               <Button type="submit" onClick={createPost}>
                 post
               </Button>

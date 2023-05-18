@@ -1,46 +1,39 @@
+import { HeartIcon } from "@heroicons/react/24/solid";
 import {
   Card,
-  CardHeader,
   CardBody,
-  CardFooter,
-  Typography,
-  Button,
-  Tooltip,
+  CardHeader,
   IconButton,
+  Tooltip,
+  Typography,
 } from "@material-tailwind/react";
-import {
-  BanknotesIcon,
-  StarIcon,
-  HeartIcon,
-  WifiIcon,
-  HomeIcon,
-  TvIcon,
-  FireIcon,
-} from "@heroicons/react/24/solid";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
-import axios from "axios";
 
 export default function PostItem({ post, index, img, title, postid, userid }) {
   const location = useLocation();
   const [likes, setlikes] = useState([]);
   const user = useSelector((state) => state.auth.user);
   let imagevar = img ? img : "post.png";
-  console.log('imagevar');
+  console.log("imagevar");
   console.log(img);
-  let imgi = `http://localhost:8080/storage/post_images/${imagevar}`;
+  let imgi = `http://reactphp.biruksoftware.com/storage/post_images/${imagevar}`;
 
   const like = async () => {
-    let res = await axios.post("http://localhost:8080/api/v1/like", {
-      post_id: postid,
-      user_id: user["id"],
-      litem: 1,
-    });
+    let res = await axios.post(
+      "http://reactphp.biruksoftware.com/api/v1/like",
+      {
+        post_id: postid,
+        user_id: user["id"],
+        litem: 1,
+      }
+    );
     console.log(res);
   };
   const getlike = async () => {
-    let res = await axios.get("http://localhost:8080/api/v1/like");
+    let res = await axios.get("http://reactphp.biruksoftware.com/api/v1/like");
     setlikes(res.data.likes);
     if (res) {
       setlikes(res.data.likes);

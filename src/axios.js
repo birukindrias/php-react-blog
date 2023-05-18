@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { loginStart, loginSuccess, loginFailure } from './store/AuthSlice';
-let api = 'http://localhost:8080/api/v1/';
+let api = 'http://reactphp.biruksoftware.com/api/v1/';
 import { fetchStart, fetchSuccess, fetchFailure, createStart, createFailure } from './store/resourceSlice.jsx';
 import { searchResult } from './store/UserSlice.jsx';
 import { useDispatch, useSelector } from 'react-redux';
@@ -42,8 +42,8 @@ export const searchUser = ({ search_user: search_user }) => async (dispatch) => 
         if (search_user != "") {
             console.log(search_user);
             console.log('search_user');
-            const response = await axios.post("http://localhost:8080/api/v1/search", {
-                 search_user: search_user 
+            const response = await axios.post("http://reactphp.biruksoftware.com/api/v1/search", {
+                search_user: search_user
             });
 
             console.log(response.data.data.users);
@@ -94,7 +94,7 @@ export const update = (formValues) => async (dispatch) => {
     try {
 
         const response = await axios.post(
-            "http://localhost:8080/api/v1/update",
+            "http://reactphp.biruksoftware.com/api/v1/update",
             formValues,
             {
                 headers: {
