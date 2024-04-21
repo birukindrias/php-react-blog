@@ -26,7 +26,7 @@ function TopNav() {
                 <img
                   className="h-full w-full mx-auto"
                   // src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Svelte_Logo.svg/512px-Svelte_Logo.svg.png"
-                  src={`https://reactphp.biruksoftware.com/storage/files/blog.png`}
+                  src={`https://web.biruksoftware.com/storage/files/blog.png`}
                   alt=" logo"
                 />
               </Link>
@@ -78,7 +78,7 @@ function TopNav() {
                   <img
                     className="h-full w-full mx-auto rounded-lg"
                     // src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Svelte_Logo.svg/512px-Svelte_Logo.svg.png"
-                    src={`https://reactphp.biruksoftware.com/storage/profile/${
+                    src={`https://web.biruksoftware.com/storage/profile/${
                       user["img"] ? user["img"] : "def.jpeg"
                     }`}
                     alt="profile logo"

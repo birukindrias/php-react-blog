@@ -54,7 +54,7 @@ const Model = () => {
                 onChange={handleChangepost}
               />
               {/* <UploadComponent /> */}
-              {/* <img src="https://reactphp.biruksoftware.com/filea/img/7444Screenshot_2023-03-09_16_49_23.png"/> */}
+              {/* <img src="https://web.biruksoftware.com/filea/img/7444Screenshot_2023-03-09_16_49_23.png"/> */}
 
               <Button
                 type="submit"

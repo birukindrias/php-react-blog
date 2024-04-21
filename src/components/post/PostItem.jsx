@@ -19,11 +19,11 @@ export default function PostItem({ post, index, img, title, postid, userid }) {
   let imagevar = img ? img : "post.png";
   console.log("imagevar");
   console.log(img);
-  let imgi = `https://reactphp.biruksoftware.com/storage/post_images/${imagevar}`;
+  let imgi = `https://web.biruksoftware.com/storage/post_images/${imagevar}`;
 
   const like = async () => {
     let res = await axios.post(
-      "https://reactphp.biruksoftware.com/api/v1/like",
+      "https://web.biruksoftware.com/api/v1/like",
       {
         post_id: postid,
         user_id: user["id"],
@@ -33,7 +33,7 @@ export default function PostItem({ post, index, img, title, postid, userid }) {
     console.log(res);
   };
   const getlike = async () => {
-    let res = await axios.get("https://reactphp.biruksoftware.com/api/v1/like");
+    let res = await axios.get("https://web.biruksoftware.com/api/v1/like");
     setlikes(res.data.likes);
     if (res) {
       setlikes(res.data.likes);

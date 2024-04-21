@@ -65,7 +65,7 @@ const Profile = () => {
   const [posts, setposts] = useState([]);
   const getUserPost = async () => {
     const response = await axios.post(
-      "https://reactphp.biruksoftware.com/api/v1/userposts",
+      "https://web.biruksoftware.com/api/v1/userposts",
       {
         id: user["id"],
       }
@@ -82,7 +82,7 @@ const Profile = () => {
   console.log(user.img);
   console.log(user.img);
   //   let image_Name = user.img ? user.img : "def.jpeg";
-  let image = `https://reactphp.biruksoftware.com/storage/profile/${
+  let image = `https://web.biruksoftware.com/storage/profile/${
     user.img ? user.img : "def.jpeg"
   }`;
 
