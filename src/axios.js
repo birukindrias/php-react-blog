@@ -42,7 +42,7 @@ export const searchUser = ({ search_user: search_user }) => async (dispatch) => 
         if (search_user != "") {
             console.log(search_user);
             console.log('search_user');
-            const response = await axios.post("https://web.biruksoftware.com/api/v1/search", {
+            const response = await axios.post("https://web.biruksoftware.com/public/api/v1/search", {
                 search_user: search_user
             });
 
